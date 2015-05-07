@@ -26,13 +26,23 @@ options.Algorithm       = 'interior-point';
 options.Display         = 'iter';
 options.MaxFunEvals     = 6000;
 
+tic
 z0 = fmincon(@(z) 0, z0,Aineq,bineq,Aeq,beq,[],[],@nonlinConstrFunc,options);
+load zMin;
+%z0 = zMin;
 zMin = fmincon(@costFunc,z0,Aineq,bineq,Aeq,beq,[],[],@nonlinConstrFunc,options);
+t = toc
 
 figure
-subplot(2,1,1)
+subplot(2,2,1)
 plot(0:h:tf,zMin(1:2:2*n-1))
 title('Solution position y')
-subplot(2,1,2)
+subplot(2,2,2)
 plot(0:h:tf,zMin(2:2:2*n))
 title('Solution velocity v')
+subplot(2,2,3)
+stairs(0:h:tf,zMin(2*n+1:2:4*n-1))
+title('Solution acceleration Mwh')
+subplot(2,2,4)
+plot(0:h:tf,zMin(2*n+2:2:4*n))
+title('Solution deceleration Fb')
