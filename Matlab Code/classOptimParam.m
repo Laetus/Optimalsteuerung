@@ -5,6 +5,6 @@ classdef classOptimParam < handle
         n = 10;         % number of intervals
         tf = 120;       % time to run from 0 to tf
         c1 = 0;
-        c2 = 10;         % parameters for objective function
+        c2 = 100;         % parameters for objective function
     end
 end
