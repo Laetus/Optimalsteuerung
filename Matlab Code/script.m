@@ -15,11 +15,11 @@ n = cOP.n+1;      % number of intervals +1
 tf = cOP.tf;    % time to run from 0 to tf
 h = cOP.tf/cOP.n;
 
-%{
-x = zeros(2*n,1);   % x = [y;v] y: Position v: velocity
-u = zeros(2*n,1);   % u = [Mwh;Fb]  Mwh: acceleration   Fb: deceleration
-z = [x;u];
-%}
+
+% x = zeros(2*n,1);   % x = [y;v] y: Position v: velocity
+% u = zeros(2*n,1);   % u = [Mwh;Fb]  Mwh: acceleration   Fb: deceleration
+% z = [x;u];
+
 
 
 %% Linear contraints
