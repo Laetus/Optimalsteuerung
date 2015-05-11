@@ -24,7 +24,7 @@ bineq = [cCCP.Fb_min*ones(n,1);cCCP.Fb_max*ones(n,1)];
 Aineq = [Aineq1;Aineq];
 bineq = [bineq1;bineq];
 
-% equality matrix
+% equality contraints matrix for position and velocity
 Aeq = zeros(3,4*n);
 
 Aeq(1,1)=1; % first 2 rows is the initial condition X_0 = [y_0;v_0] = [0;0]
@@ -32,5 +32,6 @@ Aeq(2,2)=1;
 
 Aeq(3,2*n)=1;   % final row is the condition v_n = 0
 beq = zeros(3,1);
+beq(2) = cOP.v0;
 
 end
