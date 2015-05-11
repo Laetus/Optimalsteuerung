@@ -1,0 +1,89 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate} %fÃ¼r beschriftete Nummerierung
+\usepackage{multirow} %mehrere Zeilen zusammenfassen
+
+\usepackage{makeidx} %fÃ¼rs Stichwortverzeichnis
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+
+\usepackage{makeidx}
+
+\usepackage{hyperref} %links im inhaltsverzeichnis, muss als letztes stehen
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{plain}
+\newtheorem{satz}{Satz}
+	
+\begin{document}
+	
+\title{Parameter für unser Optimierungsproblem und Protokoll vom 11.05.2015}
+\author{Annkathrin}
+\maketitle
+
+Datum: 11.05.2015\\
+Uhrzeit: 09:00 - 11:00
+
+\tableofcontents
+
+\section{Teilnehmer}
+Annkathrin\\
+Christian\\
+Johannes\\
+Sabina
+
+\section{Bisheriges Model}
+Die bisherige Implementation liefert nun nach Überarbeitung Ergebnisse, die plausibel sind, d.h. unser Auto beschleunigt erst maximal, fährt danach mit Höchstgeschwindigkeit und bremst zum Schluss maximal (Wir maximieren nur den gefahrenen Weg). Einzige Unstimmigkeit ist noch, dass das Auto zu Beginn bremst, was jedoch daher kommt, dass das Programm zuerst einen zulässigen Punkt als Startwert finden muss. Dieser wird anscheinend mit positiver Bremskraft schneller gefunden. Da das Auto zu Beginn steht, widerspricht das auch nicht der Optimierung. Nun setzen wir einmal die Anfangsgeschwindigkeit auf einen positiven Wert, dann müsste das Problem behoben sein, da dann das Auto in Hinblick auf die Maximierung der Strecke nicht mehr bremst. Eventuell kann auch die Anfangsbedingung beibehalten werden und die Toleranz verringert werden.\\
+\\
+Jedoch rechnet Matlab noch sehr lange, vor allem bei kleineren Diskretisierungsintervallen. Dem werden wir vorbeugen, indem wir in Zukunft die Ableitungen mit übergeben werden.\\
+\\
+Aus den Optimierungsergebnissen kann man sehen, dass für $t_{f}=120\,s$ das Auto eine maximale Strecke (unter optimalsten Bedingungen) von ca. $6\,km$ fährt. D.h. für dieses $t_{f}$ ist für zukünftige Simulationen eine Strecke von $6\,km$ ausreichend. 
+
+\section{Wahl der Parameter für die robuste Optimierung}
+\subsection{Höhenprofil der Straße}
+Den allgemeinen Straßenverlauf gibt uns Christian vor (er erstellt die Teststrecke in Blender), er ist also bekannt. Somit ist auch das Höhenprofil vorgegeben, allerdings modellieren wir als einen Parameter eine Abweichung/ Ungenauigkeit $\epsilon$ davon (Idee dahinter: Das Auto kennt das Höhenprofil aus dem Navi, welches aber immer eine gewisse Ungenauigkeit hat).\\
+Mathematische Herangehensweise: Das Höhenprofil wird über den Steigungswinkel $\alpha$ beschrieben, welcher in einem gewissen Intervall liegt. Die Ungenauigkeit $\epsilon$ vom vorgegebenen Höhenprofil beschreiben wir durch ein Polynom:
+$$ \epsilon(t)=\sum_{i} p_{i}\cdot(H"ohenprofil(t))^{i}$$
+mit passenden Koeffizienten $p_{i}\in [\bar{p}-p^{-}, \bar{p}+p^{+}]$ als unsichere Parameter nach Diehl.
+
+\subsection{verschiedenen Wetterlagen}
+Verschiedene Wetterlagen beschreiben wir durch verschiedene Reibungskoeffizienten. Dabei nehmen wir an, dass sich das Wetter global zu vorher fest vorgegebenen Zeiten ändert (Diese erhält das Auto aus dem Wetterbericht). D.h. das Wetter ist vor Fahrtanfang vorgegeben. Während einer gewissen Wetterlage schwankt nun der Reibungskoeffizient innerhalb eines Intervalls (z.B. bei Regen: Unterschied nasse Fahrbahn zu Wasserlache,...).\\
+Mathematisch beschreiben wir das, indem wir einen Zustand $x_{i}(t)\in [0,1]$ einführen. Dabei beschreibt $x(t)=1$ ein perfektes sonniges und $x(t)=0$ das schlechtest mögliche Wetter. Der Zusammenhang zwischen der Wetterlage $x_{i}$ und dem Reibungskoeffizienten $f_{R}$ wird durch ein Polynom gegeben:
+$$f_{R}(x_{i})=\sum_{j} p_{j}\cdot (x_{i})^{j} $$
+Dabei sind die Koeffizienten $p_{i}(x_{i})\in [\bar{p}(x_{i})-p^{-},\bar{p}(x_{i})+p^{+}]$ die unsicheren Parameter nach Diehl. Sie hängen von der Wetterlage ab (siehe oben).\\
+\\
+Eventuell führen wir auch eine höhenabhängige Glätte ein. Dies realisieren wir über einen höhenabhängigen Strafterm $k(h)$ vor der Reibung:
+$$ F_{R}= k(h)\cdot mgf_{R}$$
+
+\subsection{Baustellen und Tempolimits}
+Baustellen und Tempolimits beschreiben wir nicht durch unsichere Parameter, sondern indem wir entsprechende ortsabhängige Nebenbedingungen (Boxconstraints) einführen. Hier ist noch die Frage, wie wir Ortsabhänigkeiten in unser Optimierungsproblem einfügen können.
+
+\subsection{Wirkungsgrad des Motors}
+Eventuell könnten wir noch den Wirkungsgrad berücksichtigen, welcher auch (temperaturabhängigen, leistungsbedingten) Schwankungen unterlegen ist. Dies würde durch einen Parameter nach Diehl beschrieben werden:
+$$ M_{wh}=\mu\cdot M_{Motor} $$
+mit $\mu$ zwischen $0.8$ und $0.95$.
+
+\section{To Do}
+\begin{itemize}
+\item Sinnvolle, realistische Koeffizienten und Intervalle für das Höhenprofil (Johannes)
+
+\item Sinnvolle, realistische Koeffizienten und Intervalle für den Reibungskoeffizienten bei allen Wetterlagen (Johannes)
+
+\item Erstellen einer Teststrecke in Blender (Christian)
+
+\item Modifizierung der ersten Implementierung (Sabina)
+
+\item Paper von Diehl noch einmal im Hinblick auf die anstehende konkrete Optimierung durcharbeiten (Annkathrin)
+\end{itemize}
+
+\section{Offenen Fragen}
+Wie können ortsabhängige Beschränkungen in das Optimierungsproblem eingefügt werden?\\
+Ist es in Ordnung, wenn wir beim direkten Ansatz anstelle des adjungierten Ansatzes bleiben?
+\end{document}	
