@@ -1,3 +1,5 @@
 Hi Christian, 
 
 benötigst du um ein Schleudern in Blender simulieren zu können auch einen Winkel des Autos der das Schleudern/ die Drehung beschreibt oder musst du nur wissen wann das Auto zum Schleudern kommen? Unser Automodell muss daraufhin angepasst werden.
+
+Das Schleudern ist doch explizit über den Weg, den er einschlägt gegeben. Irgendwann kommt er halt von der Straße ab, würd ich sagen. Ansonsten versteh ich die Frage nicht richtig.
