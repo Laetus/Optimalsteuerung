@@ -1,0 +1,21 @@
+Ich denke den Begriff den wir suchen ist eher Haftreibung. In unserer Dynamik haben wir diesen bisher gar nicht berücksichtigt. 
+
+Rollreibung
+
+Beispiel: Wenn wir einen kleinen Rollwiderstandkoeffizienten hätten, wäre das gut. Das bedeutet wir müssen nicht viel Kraft aufwenden um diese Reibung zu überwinden. Für kleinen Rollwiderstandsbeiwert ist das genau umgekehrt. Diese Reibungskraft sagt allerdings nicht aus, ob wir von der Straße rutschen oder nicht.
+
+Der Rollreibungskoeffizient ergibt sich als folgendes Polynom
+
+$$f_R(v) = f_{R0} + f_{R1} v + f_{R4} v^4,$$
+
+wobei
+
+$f_{R0} = 0.009, f_{R1} = 0.002/100/3.6, f_{R4} = 0.0003/(100/3.6)^4.$
+
+Wir könnten auch diese Koeffizienten als "unsicher" ansehen.
+
+
+Haftreibung
+
+Diese Kraft macht eine Aussage, wie gut unser Auto auf der Straße "haftet." 
+
