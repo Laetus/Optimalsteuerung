@@ -1,0 +1,69 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate} %fÃ¼r beschriftete Nummerierung
+\usepackage{multirow} %mehrere Zeilen zusammenfassen
+
+\usepackage{makeidx} %fÃ¼rs Stichwortverzeichnis
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+
+\usepackage{makeidx}
+
+\usepackage{hyperref} %links im inhaltsverzeichnis, muss als letztes stehen
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{plain}
+\newtheorem{satz}{Satz}
+	
+\begin{document}
+	
+\title{Parameter für unser Optimierungsproblem und Protokoll vom 13.05.2015}
+\author{Sabina}
+\maketitle
+
+\noindent Datum: 11.05.2015\\
+Uhrzeit: 12:00 - 14:00
+
+%\tableofcontents
+
+\section{Teilnehmer}
+Annkathrin\\
+Christian\\
+Johannes\\
+Sabina
+
+\section{Modell}
+\begin{enumerate}
+\item 3 Unsicherheitsgrößen ohne Zeitabhängige Parameter
+\begin{enumerate}
+\item[(i)] Höhenprofil 1 Parameter a: $\alpha(t) = a\cdot H"ohenprofil$, $a\in[0.95,1.05]$
+\item[(ii)] Wetter 3 Parameter die das Wetter beschreiben:\\0 = schlechtes Wetter z.B. Schnee,\\ 0.5 = mittel gutes Wetter z.B. Regen,\\1 = super Wetter, Sonnenschein\\
+Wetter fließt in den $\mu_h$ ein, wobei $\mu_h$ angibt wann das Auto auf der Straße rutscht
+\item[(iii)] Reibung 3 Parameter
+\item[•] Insgesamt 7 zu bestimmende Parameter, was einer guten Größenordnung (5-10) entspricht
+\end{enumerate}
+\item makroskopisches Modell, d.h. lange Strecken werden betrachtet
+\item Die Straße hat eine gewisse Breite und das Auto soll auf der Straße bleiben und sucht sich dort die optimale Linie
+\item Ungleichungsnebenbedingungen im Allgemeinen vermeiden, insbesondere anfangs alle nichtlinearen Nebenbedingungen durch lineare ersetzen
+\item alle Parameter für die Robustheit in die rechte Seite der Dynamik packen, d.h. sollten nicht in Ungleichungs- oder Gleichungsnebenbedingungen auftauchen
+\item in den Ungleichungsnebenbedingungen die Abhängigkeit von T durch die einzelnen $t_i$ ersetzen und entsprechend auch in den Ableitungen 
+\end{enumerate}
+
+\section{Nächste Schritte}
+\begin{enumerate}
+\item Dynamik bestimmen, d.h. Ableitungen der rechten Seite der Dynamikgleichungen bestimmen (evtl. mithilfe von Mathematica) (Johannes)
+\item robustes Modell formulieren (Annkathrin)
+\item Multiple Shooting für die Diskretisierung der rechten Seite (Sabina)
+\item einigen auf prodezurale oder objektorientiere Programmierung und Schnittstellen möglichst vorher definieren, insbesondere wenn Entscheidung für prodezurale Programmierung fällt 
+\end{enumerate}
+
+\section{Ausblick}
+Falls sich in den Nebenbedingungen etwas zwischen 2 Diskretisierungspunkten ändert kann man das Gitter dort verfeinern und weitere Gitterpunkte einfügen um den Zeitpunkt zu erhalten, in dem die Änderung stattfindet
+\end{document}	
