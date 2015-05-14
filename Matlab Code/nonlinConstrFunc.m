@@ -1,5 +1,7 @@
 function [c,ceq] = nonlinConstrFunc(z)
 
+%% Initialization
+%
 cOP = classOptimParam();    % constant Optimization Prameters
 ceq = zeros(cOP.n,1);       % Compute nonlinear equalities at z
 
@@ -15,7 +17,8 @@ n = cOP.n+1;
 x = z(1:2*n);
 u = z(2*n+1:4*n);
 
-% multiple shooting
+%% multiple shooting for nonlinear equality constraints
+%
 for i = 0:cOP.n-1   % shooting n-1 times
     [t,y] = ode15s(@(t, xx) constrODE(t, xx,u(2*i+1:2*i+2)),[i*h,(i+1)*h],x(2*i+1:2*i+2));
     % equality constraints (Stetigkeitsbed für die Knoten)
@@ -46,14 +49,17 @@ if testingODE
     end
 end
 
+%% nonlinear inequality constraints
+%
 cCCP = classCarConstantParam();     % constant Car Parameters
 
-% Compute nonlinear inequalities
-% u(1) <= R*((u(2)+...)
 % c = R.*u(1:2:2*n-1)-R.*cCCP.R*(u(2:2:2*n)+R.*cCCP.F_A(x(2:2:2*n))+R.*cCCP.F_R*ones(n,1)+R.*cCCP.m*cCCP.a_max(x(2:2:2*n)));
-
 % c = -R.*u(2:2:2*n)-R.*cCCP.F_A(x(2:2:2*n)) - R.*cCCP.F_R*ones(n,1)+ R.*cCCP.m*cCCP.a_max(x(2:2:2*n));
 
-c = u(1:2:2*n-1)./cCCP.R   -  cCCP.m*cCCP.a_max(x(2:2:2*n));
+if cCCP.Mwh_max_lin
+    c = [];
+else
+    c = u(1:2:2*n-1)./cCCP.R   -  cCCP.m*cCCP.a_max(x(2:2:2*n));
+end
 
 end
