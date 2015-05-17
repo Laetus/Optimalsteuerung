@@ -8,7 +8,7 @@ def genRoad(roadpoints = 200, maxAngleXY = 30):
 
     startVektor = [0,0,0]
 
-    maxAngleXZ = 5
+    maxAngleXZ = 0
     minDist = 0.5
     maxDist = 1
 
