@@ -1,0 +1,123 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arsclassica Article
+% LaTeX Template
+% Version 1.1 (10/6/14)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Lorenzo Pantieri (http://www.lorenzopantieri.net) with extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+10pt, % Main document font size
+a4paper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+headinclude,footinclude, % Extra spacing for the header and footer
+BCOR5mm, % Binding correction
+]{scrartcl}
+
+\input{structure.tex} % Include the structure.tex file which specified the document structure and layout
+
+\hyphenation{Fortran hy-phen-ation} % Specify custom hyphenation points in words with dashes where you would like hyphenation to occur, or alternatively, don't put any dashes in a word to stop hyphenation altogether
+
+%----------------------------------------------------------------------------------------
+%	TITLE AND AUTHOR(S)
+%----------------------------------------------------------------------------------------
+
+\title{\normalfont\spacedallcaps{Model of Car}} % The article title
+
+\author{\spacedlowsmallcaps{Johannes Milz}} % The article author(s) - author affiliations need to be specified in the AUTHOR AFFILIATIONS block
+
+\date{} % An optional date to appear under the author(s)
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	HEADERS
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{#1}}} % The header for all pages (oneside) or for even pages (twoside)
+%\renewcommand{\subsectionmark}[1]{\markright{\thesubsection~#1}} % Uncomment when using the twoside option - this modifies the header on odd pages
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{halfgray} \vline}\color{halfgray}\hspace{0.5em}\rightmark\hfil}} % The header style
+
+\pagestyle{scrheadings} % Enable the headers specified in this block
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS & LISTS OF FIGURES AND TABLES
+%----------------------------------------------------------------------------------------
+
+\maketitle % Print the title/author/date block
+
+\setcounter{tocdepth}{2} % Set the depth of the table of contents to show sections and subsections only
+
+\tableofcontents % Print the table of contents
+
+\section*{Notation}
+
+\begin{tabular}{ |l | c | r }
+  \hline                       
+$\beta$  & steering angle \\
+$\mu(s) = \sum_{k=0}^2 \bar{\mu}_k s^k$ & \href{http://www.wolframalpha.com/input/?i=interpolate+polynom+&f1={{1%2C+0.9}%2C{0.5%2C0.7}%2C{0%2C0.1}}&f=InterpolatingPolynomialCalculator.data2_{{1%2C+0.9}%2C{0.5%2C0.7}%2C{0%2C0.1}}&a=*FVarOpt.1-_***InterpolatingPolynomialCalculator.data2--.***InterpolatingPolynomialCalculator.data---.*--}{static friction} \\
+$r$ & osculating circle \\
+$\omega$ & velocity of steering angel\\
+$w$ & weather\\
+
+  \hline  
+\end{tabular}
+
+
+
+\section{ODE}
+\begin{align*}
+ &\dot{y} = v(t) \cos(\beta(t))\\
+& \dot{z} = v(t) \sin(\beta(t)) \\
+& \dot{v} = \frac{1}{m}\left( \frac{M(t)}{R} - F_B(t) - \frac{1}{2}  c_w  \rho  A v(t)^2 - \left(f_{R0} + f_{R1} v(t) + f_{R4}v(t)^4 \right) m g\right)\\
+& \dot{\beta} = \omega_{\beta} 
+\end{align*}
+The maximum static friction is
+\begin{align*}
+\left(\frac{mv(t)^2}{r(t)}\right)^2+ \left(m \dot{v}\right)^2 \leq \left(\mu(t) m g\right)^2\\
+\dot{\beta}= \frac{v(t)}{r(t)}
+\end{align*}
+
+\begin{align*}
+\phi(t) = \left(\frac{v(t)^2}{r(t)}\right)^2+ \dot{v}^2 - \left(\mu(t) g\right)^2\\
+\end{align*}
+
+Define penalty function
+\begin{align*}
+P(s; v; \beta) = \begin{cases} 0 & \text{if }  s \leq 0 \\
+-\text{sign}(\beta) v s^4 & \text{if }  s  > 0
+\end{cases}
+\end{align*}
+
+\begin{align*}
+\dot{\beta} = \omega_{\beta} +  P(\phi(t); v(t))
+\end{align*}
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\refname}{\spacedlowsmallcaps{References}} % For modifying the bibliography heading
+
+\bibliographystyle{unsrt}
+
+\bibliography{sample.bib} % The file containing the bibliography
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
