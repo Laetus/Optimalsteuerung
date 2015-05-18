@@ -5,7 +5,7 @@ function [c,ceq] = nonlinConstrFunc(z)
 cOP = classOptimParam();    % constant Optimization Prameters
 ceq = zeros(cOP.n,1);       % Compute nonlinear equalities at z
 
-testingODE = 0; % select 1 to get an plot of the y and v solution of ode45
+testingODE = 1; % select 1 to get an plot of the y and v solution of ode45
 if testingODE
     testVal = [];
     testY = cell(1,cOP.n); 
@@ -44,8 +44,11 @@ if testingODE
     close all
     figure
     for i = 1:cOP.n
-        plot(testT{i},testY{i}(:,1),'b.')
+        plot(testT{i},testY{i}(:,1),'b-')
         hold on
+        plot(testT{i}(1),testY{i}(1),'bo','MarkerSize',9,'MarkerFaceColor','b')
+        plot(testT{i}(end),testY{i}(end,1),'bo')
+        xlabel('t'); ylabel('x'); title('Multiple Shooting from 0 to 120 s');
     end
 end
 

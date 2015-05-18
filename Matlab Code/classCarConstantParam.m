@@ -5,13 +5,13 @@ classdef classCarConstantParam < handle
         Fb_min = 0;             % minimum braking force
         Fb_max = 15000;         % maximum braking force [N]
         Mwh_min = 0;            % minimum acceleration force
-        Mwh_max = 100;          % maximum acceleration force
-        Mwh_max_lin = 0;        % select 1 to use the linear constraint for Mwh_max, otherwise the nonlinear constraint is used
+        Mwh_max = 300;          % maximum acceleration force
+        Mwh_max_lin = 1;        % select 1 to use the linear constraint for Mwh_max, otherwise the nonlinear constraint is used
         m = 1239;               % mass of car [kg]
         R = 0.302;              % radius of wheel [m]
         c_w  = 0.3;             % air drag coefficient [1]
         rho = 1.249512;         % air density [kg/m^3]
-        A = 0;%A = 1.4378946874;       % effective flow surface [m^2]
+        A=0;%A = 1.4378946874;       % effective flow surface [m^2]
         f_Rcoeff = 0.00; %f_R = 0;                % friction coefficient [1]
         g = 9.81;               % acceleration of gravity [m/s^2]
         
