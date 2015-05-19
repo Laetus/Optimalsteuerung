@@ -1,5 +1,9 @@
 close all; clc
 
+global global_iterationCount global_testingODE
+
+global_iterationCount = 0;
+global_testingODE = 0;
 %% Saving command window output
 %
 saveWorkspace = 0; % select 1 to save the Output of the optimization
@@ -44,15 +48,16 @@ options                 = optimoptions('fmincon');
 options.Algorithm       = 'interior-point';
 options.Display         = 'iter';
 options.MaxFunEvals     = 20000;
+options.OutputFcn       = @TestODE;
 
 
 %% Phase 1
 %
 
 zMin = fmincon(@(z) 0, zMin,Aineq,bineq,Aeq,beq,[],[],[],options);
-
+global_iterationCount = 0;
 zMin = fmincon(@(z) 0, zMin,Aineq,bineq,Aeq,beq,[],[],@nonlinConstrFunc,options);
-
+global_iterationCount = 0;
 z0 = zMin;
 
 %load zMin;

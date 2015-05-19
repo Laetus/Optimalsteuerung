@@ -1,12 +1,14 @@
 function [c,ceq] = nonlinConstrFunc(z)
 
+global global_testingODE
+
 %% Initialization
 %
 cOP = classOptimParam();    % constant Optimization Prameters
 ceq = zeros(cOP.n,1);       % Compute nonlinear equalities at z
 
-testingODE = 1; % select 1 to get an plot of the y and v solution of ode45
-if testingODE
+testingODE = 0; % select 1 to get an plot of the y and v solution of ode45
+if testingODE && global_testingODE
     testVal = [];
     testY = cell(1,cOP.n); 
     testT = cell(1,cOP.n);
@@ -26,21 +28,16 @@ for i = 0:cOP.n-1   % shooting n-1 times
     % with X(t_{i+1}) being y(end,1:2) the Runge Kutta approximation
     ceq(2*i+1,1) = y(end,1)-x(2*i+3);
     ceq(2*i+2,1) = y(end,2)-x(2*i+4);
-    if testingODE
+    if testingODE && global_testingODE
         testVal(i+1,:) = [y(end,1) y(end,2)];
         testY{i+1} = y(:,1:2);
         testT{i+1} = t;
     end
 end
 
-if testingODE
-    %     subplot(2,1,1)
-    %     plot(testVal(:,1));
-    %     title('ODE Solution position y')
-    %     subplot(2,1,2)
-    %     plot(testVal(:,2));
-    %     title('ODE Solution velocity v')
+if testingODE && global_testingODE
     % plot of multiple shooted position values y
+    global_testingODE = 0;
     close all
     figure
     for i = 1:cOP.n
