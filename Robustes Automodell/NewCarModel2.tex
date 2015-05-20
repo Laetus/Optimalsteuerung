@@ -90,16 +90,19 @@ If the maximum static friction $\mu(w(t)) m g$ is greater than or equal $\sqrt{\
 & \dot{v} = \frac{1}{m}\left( \frac{M(t)}{R} - F_B(t) - \frac{1}{2}  c_w  \rho  A v(t)^2 - \left(f_{R0} + f_{R1} v(t) + f_{R4}v(t)^4 \right) m g\right)\\
 & \dot{\beta} = \omega_{\beta} 
 \end{align*}
-If the maximum static friction is less than $F_{res}(t)\sqrt{\left(\frac{mv(t)^2}{r(t)}\right)^2+ \left(m \dot{v}\right)^2},$ the car slides. The rolling friction $\left(f_{R0} + f_{R1} v(t) + f_{R4}v(t)^4 \right) m g$ "turns into" dynamic friction $\mu_d m g.$ For simplicity, we could assume that the coefficient $\mu_d$ is constant. However, $\mu_d \approx 0.5 \cdot \mu(w(t)),$ in general.
+If the maximum static friction is less than $F_{res}(t) = \sqrt{\left(\frac{mv(t)^2}{r(t)}\right)^2+ \left(m \dot{v}\right)^2},$ the car slides. The rolling friction $\left(f_{R0} + f_{R1} v(t) + f_{R4}v(t)^4 \right) m g$ "turns into" dynamic friction $\mu_d m g.$ For simplicity, we could assume that the coefficient $\mu_d$ is constant. However, $\mu_d \approx 0.5 \cdot \mu(w(t)),$ in general.
 The dynamics reads as
 \begin{align*}
- &\dot{y} = v(t) \cos\beta(t) +  v_r(t)\sin \alpha(t) \\
-& \dot{z} = v(t) \sin\beta(t) +  v_r(t)\cos \alpha(t) \\
+ &\dot{y} = v(t) \cos\beta(t) +  v_r(t)\sin ( \frac{\pi}{2}+\alpha(t) +\beta(t)) \\
+& \dot{z} = v(t) \sin\beta(t) +  v_r(t)\cos ( \frac{\pi}{2}+\alpha(t) +\beta(t)) \\
 & \dot{v} = \frac{1}{m}\left( \frac{M(t)}{R} - F_B(t) - \frac{1}{2}  c_w  \rho  A v(t)^2 - \mu_d m g\right)\\
 & \dot{\beta} = \omega_{\beta},
 \end{align*}
-where $\tan \alpha(t) = \frac{v(t)^2}{\dot{v}r(t)}$ and $\sin \alpha(t) (F_{res}(t) - \mu(w(t)) mg ) = \frac{m v_r(t)^2}{r(t)}.$ \par
+where $\tan \alpha(t) = \frac{v(t)^2}{\dot{v}r(t)}$ and $\sin \alpha(t)  (F_{res}(t) - \mu(w(t)) mg ) = \frac{m v_r(t)^2}{r(t)}.$ \par
 
-
+ \begin{figure}[t]
+    \centering
+    \includegraphics[angle = 270, scale=0.1]{pic}
+\end{figure} 
 
 \end{document}

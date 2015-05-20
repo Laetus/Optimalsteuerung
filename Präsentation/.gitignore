@@ -1,0 +1,10 @@
+# Ignore (generated) aux log out gz files
+*.aux
+*.log
+*.out
+*.gz
+*.lof
+*.lot
+*.toc
+*.snm
+*.nav
