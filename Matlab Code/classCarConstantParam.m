@@ -11,8 +11,8 @@ classdef classCarConstantParam < handle
         R = 0.302;              % radius of wheel [m]
         c_w  = 0.3;             % air drag coefficient [1]
         rho = 1.249512;         % air density [kg/m^3]
-        A = 1.4378946874;       % effective flow surface [m^2]
-        f_Rcoeff = 0.015;            % friction coefficient [1]
+        A=0;%A = 1.4378946874;       % effective flow surface [m^2]
+        f_Rcoeff=0;%f_Rcoeff = 0.015;            % friction coefficient [1]
         g = 9.81;               % acceleration of gravity [m/s^2]
         
     end

@@ -41,11 +41,18 @@ if testingODE && global_testingODE
     close all
     figure
     for i = 1:cOP.n
+        subplot(2,1,1)
         plot(testT{i},testY{i}(:,1),'b-')
         hold on
-        plot(testT{i}(1),testY{i}(1),'bo','MarkerSize',9,'MarkerFaceColor','b')
+        plot(testT{i}(1),testY{i}(1,1),'bo','MarkerSize',9,'MarkerFaceColor','b')
         plot(testT{i}(end),testY{i}(end,1),'bo')
-        xlabel('t'); ylabel('x'); title('Multiple Shooting from 0 to 120 s');
+        xlabel('t'); ylabel('x'); title('Multiple Shooting of position');
+        subplot(2,1,2)
+        plot(testT{i},testY{i}(:,2),'b-')
+        hold on
+        plot(testT{i}(1),testY{i}(1,2),'bo','MarkerSize',9,'MarkerFaceColor','b')
+        plot(testT{i}(end),testY{i}(end,2),'bo')
+        xlabel('t'); ylabel('v'); title('Multiple Shooting of velocity');
     end
 end
 
