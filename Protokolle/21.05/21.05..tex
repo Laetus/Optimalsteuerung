@@ -1,0 +1,50 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate} %fÃ¼r beschriftete Nummerierung
+\usepackage{multirow} %mehrere Zeilen zusammenfassen
+
+\usepackage{makeidx} %fÃ¼rs Stichwortverzeichnis
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+
+\usepackage{makeidx}
+
+\usepackage{hyperref} %links im inhaltsverzeichnis, muss als letztes stehen
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{plain}
+\newtheorem{satz}{Satz}
+	
+\begin{document}
+	
+\title{Kurzzusammenfassung meines Treffens mit Sebastian am 21.05.2015}
+\author{Annkathrin}
+
+\maketitle
+
+Datum: 21.05.2015\\
+Uhrzeit: 15:00 - 15:45
+
+\tableofcontents
+
+\section{Teilnehmer}
+Annkathrin\\
+Sebastian
+
+\section{Präsentation}
+Unsere Ideen und Gliederung sind gut, nur Annkathrin und Sabina sollten in der Reihenfolge tauschen. D.h. zuerst wird das aus dem Modell erhaltene Optimalsteuerungsproblem diskretisiert und dann die robuste Formulierung nach Diehl anhand des diskretisierten Optimalsteuerungsproblems erklärt.
+
+\section{Problemformulierung} 
+Die Slackformulierung und die Formulierung der Nebenbedingungen mit den $t_{j}$ anstelle $T$ passt.\\
+Bei der Rückformulierung in das Standardoptimalsteuerungsproblem ist es praktischer, in der DGL auch die Schlupfvariablen in Differentialgleichungen zu verpacken. Dadurch wird das Problem zwar etwas größer, aber es ist übersichtlicher (es steht wirklich in der Standardform da). Sonst müsste man für die Slackvariablen eine eigene (globale) Struktur anlegen, auf die jede Funktion zurückgreifen kann. Dies ist weniger übersichtlich, da dann nicht mehr eine Standardformulierung vorliegt und kann beispielsweise beim Multiple Shooting zu Problemen führen.\\
+Alle Matrixen in meinem Teil werden sparse übergeben (Schnittstelle mit Sabina: evtl danach Umwandlung in dense?).\\
+Die geTeXte Version unseres rückformulierten Problems folgt in Kürze.
+
+\end{document}
