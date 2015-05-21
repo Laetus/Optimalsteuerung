@@ -1,0 +1,21 @@
+% This file was created with JabRef 2.10.
+% Encoding: Cp1252
+
+
+@Book{Hampel:1986,
+  Title                    = {Robust statistics : the approach based on influence functions},
+  Author                   = {Hampel, Frank R. and Elvezio, M. Ronchetti and Peter J. Rousseeuw and Werner A. Stahel},
+  Editor                   = {Hampel, F. R.},
+  Publisher                = {Wiley},
+  Year                     = {1986},
+
+  Address                  = {New York u.a.},
+  Edition                  = {2. print.},
+  Series                   = {Wiley series in probability and mathematical statistics: Probability and mathematical statistics.},
+
+  ISBN                     = {0-471-82921-8 - 0-471-63238-4},
+  Owner                    = {Milz},
+  Pages                    = {XXI, 502 S. : graph. Darst.},
+  Timestamp                = {2015.04.03}
+}
+
