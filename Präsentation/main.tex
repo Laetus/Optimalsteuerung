@@ -7,7 +7,16 @@
 \usepackage[T1]{fontenc}
 \usepackage[ngerman]{babel}
 \usepackage{lmodern}
-
+\usepackage{ifluatex}
+\ifluatex
+  \usepackage{pdftexcmds}
+  \makeatletter
+  \let\pdfstrcmp\pdf@strcmp
+  \let\pdffilemoddate\pdf@filemoddate
+  \makeatother
+\fi
+\usepackage{svg}
+\setsvg{inkscape={"C:/Program Files (x86)/Inkscape/inkscape.exe"= -z -C}}
 
 
 \title{Robust Optimization}
@@ -61,9 +70,9 @@
 
 %------------------------------------------
 
-\section{MultipleShooting}
+\section{Discretization}
 
-
+\include{Diskretization}
 \include{MultipleShooting}
 
 %------------------------------------------
