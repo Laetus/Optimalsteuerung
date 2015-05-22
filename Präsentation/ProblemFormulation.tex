@@ -1,11 +1,77 @@
 
 
 \begin{frame}
-\frametitle{Problem Formulation}
-blalba
+\frametitle{Problem Formulation - Constraints for Parameters}
+
+\begin{block}
+	
+\begin{align*}
+\min_{x\in \mathbb{R}^{n_{x}}, u\in \mathbb{R}^{n_{u}}} f_{0}(x, u)\\
+s.t. f_{i}(x,u)\leq 0 &for i=1,...,n_{f}\\
+g_{j}(x,u,p)=0 &for j=1,...,n_{x}
+\end{align*}
+with a uncertain parameter vector $p\in \mathbb{R}^{n_{p}}$.
+
+\end{block}
+
+
+\begin{block}
+
+\begin{equation*}
+\mathbb{P}_{box}=\left\{\left. p \right| p_{l}\leq p \leq p_{u}\right\}
+\end{equation*}
+$p_{l}$: lower bound, $p_{u}$: upper bound\\
+
+weather: $\left\{\left. p \right| 0\leq p\leq 1\right\}$\\
+height profil: $\left\{\left. p \right| 0\leq p\leq 45\right\}$
+
+\end{block}
+
 \end{frame}
 
 
 \begin{frame}
-\frametitle{Diskretisierung}
+\frametitle{Problem Formulation - Worst Case Formulation}
+
+EXAMPLE?
+
+\begin{align*}
+\Phi_{i}(u)=\max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}} f_{i}(x,u)\\
+	s.t. g(x,u,p)=0\\
+	p\in\mathbb{P}_{box}
+\end{align*}
+
+\begin{block}{Robust counterpart}
+\begin{align*}
+\min_{u\in\mathbb{R}^{n_{u}}} \Phi_{0}(u)\\
+s.t. \Phi_{i}(u)\leq 0 \forall i=1,...,n_{f}
+\end{align*}
+$\Rightarrow$ bilevel structure!
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Problem Formulation - Approximation Technique}
+
+\begin{block}{Linearization}
+	\begin{align*}
+	\tilde{\Phi}_{i}(u)=\max_{(x-\bar{x})\in\mathbb{R}^{n_{x}}, (p-\bar{p})\in\mathbb{R}^{n_{p}}} f_{i}(\bar{x}, u)+\frac{\partial f_{i}}{\partial x}(\bar{x}, u)(x-\bar{x})\\
+	s.t. \frac{\partial g}{\partial x}(\bar{x}, u, \bar{p})(x-\bar{x})+\frac{\partial g}{\partial p}(\bar{x}, u, \bar{p})(p-\bar{p})=0\\
+	p-\bar{p} s.th. p\in\mathbb{P}_{box}
+	\end{align*}
+\end{block}	
+	
+
+	
+\begin{block}	
+
+\begin{align*}
+\min_{u\in\mathbb{R}^{n_{u}}, \bar{x}\in\mathbb{R}^{n_{x}}} \tilde{\Phi}_{0}(u)\\
+s.t. \tilde{\Phi}_{i}(u)\leq 0 \forall i=1,...,n_{f}\\
+g(\bar{x}, u, \bar{p})=0
+\end{align*}
+\end{block} 
+	
+$\Rightarrow$ Standard Optimization Problem (SQP or else)
 \end{frame}
