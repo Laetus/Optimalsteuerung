@@ -1,0 +1,340 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Naive Model of a Car</title><meta name="generator" content="MATLAB 8.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-20"><meta name="DC.source" content="CarModel3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Naive Model of a Car</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Notation</a></li><li><a href="#2">Model of a Car</a></li><li><a href="#7">Maximum Acceleration  a_max(v)</a></li><li><a href="#9">Test Course</a></li><li><a href="#11">Model of the Driver</a></li><li><a href="#25">Plot of maximum wheel torque</a></li><li><a href="#26">Plot of maximum velocity without friction (such as air drag, ...)</a></li><li><a href="#27">Plot of Air Drag Torque</a></li><li><a href="#28">Literature</a></li></ul></div><h2>Notation<a name="1"></a></h2><pre class="codeinput"><span class="comment">% y         center of gravity of car (1D, no sealevel, straigt line, i.e., no curves) [m]</span>
+<span class="comment">% v         velocity of car [m/s]</span>
+<span class="comment">% v_min     minimum v [m/s]</span>
+<span class="comment">% v_max     maximum v [m/s]</span>
+<span class="comment">% m         mass of car [kg]</span>
+<span class="comment">% rho       air density % [kg/m^3] = [N s^2/m^4]</span>
+<span class="comment">% A         effective flow surface</span>
+<span class="comment">% g         gravity constant [m/s^2]</span>
+<span class="comment">% R         wheel radius [m]</span>
+<span class="comment">% F_B       braking force [N]</span>
+<span class="comment">% F_Bmax    maximum braking force [N]</span>
+<span class="comment">% M_{wh}    motor torque at the "wheel" [N]</span>
+<span class="comment">% t_f        final time</span>
+<span class="comment">% a_max     maximum acceleration capability</span>
+<span class="comment">% F_R       rolling resistance force [N]</span>
+<span class="comment">% f_R       rolling resistance coefficient</span>
+</pre><h2>Model of a Car<a name="2"></a></h2><p>Equations of Motion:</p><p><img src="CarModel3_eq01234483697452437969.png" alt="$$\dot y = v$$"></p><p><img src="CarModel3_eq04041937149925392533.png" alt="$$   m \dot v = \frac{M_{wh}(t)}{R}  -  F_B -  F_A(v) - F_R,$$"></p><p>where</p><p><img src="CarModel3_eq04247782309609259880.png" alt="$$F_A(v) = 0.5 c_w \rho A v(t)^2, F_R = f_R \cdot m \cdot g.$$"></p><p><img src="CarModel3_eq00548527227511058494.png" alt="$$F_B \in [0, F_{Bmax}].$$"></p><pre class="codeinput"><span class="comment">% Parameter</span>
+F_Bmax = 15000; <span class="comment">%[N]</span>
+m = 1239; <span class="comment">%[kg]</span>
+R = 0.302; <span class="comment">%[m]</span>
+c_w  = 0.3;
+rho = 1.24;
+<span class="comment">%A = 0;</span>
+A = 1.44; <span class="comment">%[m^2]</span>
+f_R = 0;
+v_min = 0;
+v_max = 130 *1/3.6; <span class="comment">%[m/s]</span>
+g = 9.81;
+</pre><h2>Maximum Acceleration  a_max(v)<a name="7"></a></h2><p>The maximum acceleration a_max is a function of the velocity v (see [Dynamik der Kraftfahrzeuge, p 152 and p 158])</p><pre class="codeinput">a_max = @(v) -1.666667e-6.*v.^4 + 0.229167e-3.*v.^3 - 0.01033333.*v.^2 + 0.132083.*v +1;
+a_max = @(v) 0.2500.*a_max(v);
+plot(linspace(0,50, 50), a_max(linspace(0, 50, 50)))
+title(<span class="string">'Maximum acceleration'</span>)
+xlabel(<span class="string">'v [m/s]'</span>)
+ylabel(<span class="string">'dv/dt/g [1]'</span>)
+a_max = @(v, g) g.*a_max(v);
+a_max = @(v) a_max(v, g);
+</pre><img vspace="5" hspace="5" src="CarModel3_01.png" alt=""> <p><img src="CarModel3_eq12032045936364213488.png" alt="$$M_{wh}(t) \leq R(F_B + F_A(v) + F_R + m a_{max}(v)) $$"></p><h2>Test Course<a name="9"></a></h2><p>The test course is a straight road. The driver is not able to steer the car.  Hence, the boundaries of the test course are</p><p><img src="CarModel3_eq01393541799903150289.png" alt="$y_{min} \leq y(t) \leq y_{max} = free$"></p><pre class="codeinput">y_min = 0; <span class="comment">%[m]</span>
+</pre><h2>Model of the Driver<a name="11"></a></h2><p>Fixed final time <img src="CarModel3_eq00230343701120981650.png" alt="$t_{f}$">.</p><pre class="codeinput">t_f = 12000; <span class="comment">%[s]</span>
+</pre><p>The  objective reads as</p><p><img src="CarModel3_eq07967177026767113701.png" alt="$$f_0(x(t_f), t_f) = c_{1}\cdot\int_{0}^{t_f} P_{wh}(t) dt-c_{2}\cdot y(t_{f}),$$"></p><p>where</p><p><img src="CarModel3_eq00802821914466927482.png" alt="$$P_{wh}(t) \approx F_A(v) v(t)  + \frac{M_{wh}}{R} v(t) + F_Rv(t),$$"></p><p>Hence,</p><p><img src="CarModel3_eq16814726240223431490.png" alt="$$f_0(x(t_f), t_f) =   c_{1} \int F_A(v) v(t)  + \frac{M_{wh}}{R} v(t) + F_Rv(t) - c_{2}\cdot y(t_{f}) $$"></p><p><img src="CarModel3_eq11325329546571740698.png" alt="$$= 0.5c_1 c_w \rho A \int v(t)^3 dt + \frac{c_1}{R} \int M_{wh}(t)v(t) dt + c_1 \int f_R m g \int v(t) dt -c_2 y(t_f)$$"></p><p><img src="CarModel3_eq00076449609343589941.png" alt="$$= 0.5c_1 c_w \rho A \int x_2^3 dt + \frac{c_1}{R} \int u_1(t)x_2(t) dt + (c_1 f_r m g -c_2) x_1(t_f),$$"></p><p>where</p><p><img src="CarModel3_eq02136619487077933237.png" alt="$$u = \pmatrix{ M_{wh} \cr F_B}, and$$"></p><p><img src="CarModel3_eq15402941244802986953.png" alt="$$x = \pmatrix{ y \cr v }.$$"></p><p>Minimizing the objective is subject to</p><p><img src="CarModel3_eq01234483697452437969.png" alt="$$\dot y = v$$"></p><p><img src="CarModel3_eq14302580441415901644.png" alt="$$\dot v = \frac{1}{m} (\frac{M_{wh}}{R}  -  F_B -  F_A(v) - F_R),$$"></p><p><img src="CarModel3_eq11278775406370681699.png" alt="$$ y(0) = y_{min},\ v(0) = 0,\ [v(t_{f}) = 0]$$"></p><p><img src="CarModel3_eq13432643106799733331.png" alt="$$F_B \in [0, F_{Bmax}]$$"></p><p><img src="CarModel3_eq15153465240138558718.png" alt="$$M_{wh}(t) \leq R(F_B + F_A(v) + F_R + m a_{max}(v))$$"></p><h2>Plot of maximum wheel torque<a name="25"></a></h2><pre class="codeinput">vv = 0:56;
+F_A = @(A, rho, c_w, v) 0.50000.*A.*rho.*c_w.*v.^2;
+F_A = @(v) F_A(A, rho, c_w, v);
+plot(vv, R.*(m.*a_max(vv) + F_A(vv)))
+title(<span class="string">'Maximum torque'</span>)
+xlabel(<span class="string">'v [m/s]'</span>)
+ylabel(<span class="string">'M_{wh_{max}}(v)[N]'</span>)
+ylim([0 1400])
+</pre><img vspace="5" hspace="5" src="CarModel3_02.png" alt=""> <h2>Plot of maximum velocity without friction (such as air drag, ...)<a name="26"></a></h2><pre class="codeinput">clf
+
+[T, Y] = ode45(@(t, v) a_max(v), [0, t_f], 0);
+plot(T, Y)
+title(<span class="string">'Plausibility check: How fast can our car get?'</span>)
+xlabel(<span class="string">'t [s]'</span>)
+ylabel(<span class="string">'v [m/s]'</span>)
+hold <span class="string">on</span>
+plot(10, 100/3.6, <span class="string">'o'</span> )
+text(40, 25, <span class="string">'Our car reaches 100 km/h within 10 s'</span>)
+</pre><img vspace="5" hspace="5" src="CarModel3_03.png" alt=""> <h2>Plot of Air Drag Torque<a name="27"></a></h2><pre class="codeinput">clf
+plot(vv, R .* F_A(vv))
+title(<span class="string">'R*F_A'</span>)
+xlabel(<span class="string">'v [m/s]'</span>)
+ylabel(<span class="string">'R *F_A [N m]'</span>)
+
+clear <span class="string">vv</span>
+</pre><img vspace="5" hspace="5" src="CarModel3_04.png" alt=""> <h2>Literature<a name="28"></a></h2><p><a href="http://rd.springer.com/book/10.1007/978-3-658-05068-9">http://rd.springer.com/book/10.1007/978-3-658-05068-9</a></p><p><a href="https://books.google.de/books?id=OLvSySIKmEAC&amp;pg=PA366&amp;dq=model+of+a+car+gerdts&amp;hl=de&amp;sa=X&amp;ei=zRI2VeDbFMHpaPbwgPAB&amp;ved=0CCoQ6AEwAQ#v=onepage&amp;q=model%20of%20a%20car%20gerdts&amp;f=false">https://books.google.de/books?id=OLvSySIKmEAC&amp;pg=PA366&amp;dq=model+of+a+car+gerdts&amp;hl=de&amp;sa=X&amp;ei=zRI2VeDbFMHpaPbwgPAB&amp;ved=0CCoQ6AEwAQ#v=onepage&amp;q=model%20of%20a%20car%20gerdts&amp;f=false</a></p><p><a href="https://www.unibw.de/lrt1/gerdts/lehre/optimale_steuerung.pdf">https://www.unibw.de/lrt1/gerdts/lehre/optimale_steuerung.pdf</a></p><p><a href="http://www.wolframalpha.com/input/?i=interpolate+polynom+&amp;f1={{0%2C+1}%2C{10%2C1.5}%2C{30%2C0.5}%2C{40%2C0.15}%2C+{50%2C+0}}&amp;f=InterpolatingPolynomialCalculator.data2_{{0%2C+1}%2C{10%2C1.5}%2C{30%2C0.5}%2C{40%2C0.15}%2C+{50%2C+0}}&amp;a=*FVarOpt.1-_***InterpolatingPolynomialCalculator.data2--.***InterpolatingPolynomialCalculator.data---.*--">http://www.wolframalpha.com/input/?i=interpolate+polynom+&amp;f1={{0%2C+1}%2C{10%2C1.5}%2C{30%2C0.5}%2C{40%2C0.15}%2C+{50%2C+0}}&amp;f=InterpolatingPolynomialCalculator.data2_{{0%2C+1}%2C{10%2C1.5}%2C{30%2C0.5}%2C{40%2C0.15}%2C+{50%2C+0}}&amp;a=*FVarOpt.1-_***InterpolatingPolynomialCalculator.data2--.***InterpolatingPolynomialCalculator.data---.*--</a></p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Naive Model of a Car
+%
+
+
+
+
+%% Notation
+%
+
+% y         center of gravity of car (1D, no sealevel, straigt line, i.e., no curves) [m]
+% v         velocity of car [m/s]
+% v_min     minimum v [m/s]
+% v_max     maximum v [m/s]
+% m         mass of car [kg]
+% rho       air density % [kg/m^3] = [N s^2/m^4]
+% A         effective flow surface
+% g         gravity constant [m/s^2]
+% R         wheel radius [m]
+% F_B       braking force [N]
+% F_Bmax    maximum braking force [N]
+% M_{wh}    motor torque at the "wheel" [N]
+% t_f        final time
+% a_max     maximum acceleration capability
+% F_R       rolling resistance force [N]
+% f_R       rolling resistance coefficient
+
+
+
+%% Model of a Car
+% Equations of Motion:
+%%
+% 
+% $$\dot y = v$$
+%
+% $$   m \dot v = \frac{M_{wh}(t)}{R}  -  F_B -  F_A(v) - F_R,$$
+
+%%
+% where 
+%%
+% 
+% $$F_A(v) = 0.5 c_w \rho A v(t)^2, F_R = f_R \cdot m \cdot g.$$
+% 
+%%
+% $$F_B \in [0, F_{Bmax}].$$
+
+
+
+% Parameter
+F_Bmax = 15000; %[N]
+m = 1239; %[kg]
+R = 0.302; %[m]
+c_w  = 0.3;
+rho = 1.24; 
+%A = 0; 
+A = 1.44; %[m^2]
+f_R = 0; 
+v_min = 0;
+v_max = 130 *1/3.6; %[m/s]
+g = 9.81;
+
+   
+
+%% Maximum Acceleration  a_max(v)
+%
+% The maximum acceleration a_max is a function of the velocity v (see
+% [Dynamik der Kraftfahrzeuge, p 152 and p 158])
+a_max = @(v) -1.666667e-6.*v.^4 + 0.229167e-3.*v.^3 - 0.01033333.*v.^2 + 0.132083.*v +1;
+a_max = @(v) 0.2500.*a_max(v);
+plot(linspace(0,50, 50), a_max(linspace(0, 50, 50)))
+title('Maximum acceleration')
+xlabel('v [m/s]')
+ylabel('dv/dt/g [1]')
+a_max = @(v, g) g.*a_max(v);
+a_max = @(v) a_max(v, g);
+
+
+
+
+%%
+% 
+% $$M_{wh}(t) \leq R(F_B + F_A(v) + F_R + m a_{max}(v)) $$
+% 
+
+
+%% Test Course
+% The test course is a straight road. The driver is not able to steer the
+% car.  Hence, the boundaries of the test course are
+
+%%
+% $y_{min} \leq y(t) \leq y_{max} = free$
+y_min = 0; %[m]
+
+
+
+%% Model of the Driver
+% Fixed final time $t_{f}$. 
+t_f = 12000; %[s]
+%%
+% The  objective reads as 
+%
+%%
+% 
+% $$f_0(x(t_f), t_f) = c_{1}\cdot\int_{0}^{t_f} P_{wh}(t) dt-c_{2}\cdot y(t_{f}),$$
+% 
+%%
+% where
+%%
+% 
+% $$P_{wh}(t) \approx F_A(v) v(t)  + \frac{M_{wh}}{R} v(t) + F_Rv(t),$$
+% 
+%%
+% Hence, 
+
+%%
+% 
+% $$f_0(x(t_f), t_f) =   c_{1} \int F_A(v) v(t)  + \frac{M_{wh}}{R} v(t) + F_Rv(t) - c_{2}\cdot y(t_{f}) $$
+%
+% $$= 0.5c_1 c_w \rho A \int v(t)^3 dt + \frac{c_1}{R} \int M_{wh}(t)v(t) dt + c_1 \int f_R m g \int v(t) dt -c_2 y(t_f)$$
+%
+% $$= 0.5c_1 c_w \rho A \int x_2^3 dt + \frac{c_1}{R} \int u_1(t)x_2(t) dt + (c_1 f_r m g -c_2) x_1(t_f),$$
+
+%%
+% where
+
+%%
+% 
+% $$u = \pmatrix{ M_{wh} \cr F_B}, and$$
+% 
+
+
+%%
+% 
+% $$x = \pmatrix{ y \cr v }.$$
+% 
+
+
+%% 
+% Minimizing the objective is subject to
+
+%%
+% $$\dot y = v$$
+%
+% $$\dot v = \frac{1}{m} (\frac{M_{wh}}{R}  -  F_B -  F_A(v) - F_R),$$
+%
+
+
+%%
+% $$ y(0) = y_{min},\ v(0) = 0,\ [v(t_{f}) = 0]$$ 
+%%
+% 
+% $$F_B \in [0, F_{Bmax}]$$
+% 
+% $$M_{wh}(t) \leq R(F_B + F_A(v) + F_R + m a_{max}(v))$$
+
+%% Plot of maximum wheel torque
+%
+
+vv = 0:56;
+F_A = @(A, rho, c_w, v) 0.50000.*A.*rho.*c_w.*v.^2;
+F_A = @(v) F_A(A, rho, c_w, v);
+plot(vv, R.*(m.*a_max(vv) + F_A(vv)))
+title('Maximum torque')
+xlabel('v [m/s]')
+ylabel('M_{wh_{max}}(v)[N]')
+ylim([0 1400])
+
+
+
+%% Plot of maximum velocity without friction (such as air drag, ...) 
+%
+clf
+
+[T, Y] = ode45(@(t, v) a_max(v), [0, t_f], 0);
+plot(T, Y)
+title('Plausibility check: How fast can our car get?')
+xlabel('t [s]')
+ylabel('v [m/s]')
+hold on
+plot(10, 100/3.6, 'o' )
+text(40, 25, 'Our car reaches 100 km/h within 10 s')
+
+
+
+%% Plot of Air Drag Torque
+%
+clf
+plot(vv, R .* F_A(vv))
+title('R*F_A')
+xlabel('v [m/s]')
+ylabel('R *F_A [N m]')
+
+clear vv
+%% Literature
+%
+
+%%
+% <http://rd.springer.com/book/10.1007/978-3-658-05068-9>
+%%
+% <https://books.google.de/books?id=OLvSySIKmEAC&pg=PA366&dq=model+of+a+car+gerdts&hl=de&sa=X&ei=zRI2VeDbFMHpaPbwgPAB&ved=0CCoQ6AEwAQ#v=onepage&q=model%20of%20a%20car%20gerdts&f=false>
+%%
+% <https://www.unibw.de/lrt1/gerdts/lehre/optimale_steuerung.pdf>
+%%
+% <http://www.wolframalpha.com/input/?i=interpolate+polynom+&f1={{0%2C+1}%2C{10%2C1.5}%2C{30%2C0.5}%2C{40%2C0.15}%2C+{50%2C+0}}&f=InterpolatingPolynomialCalculator.data2_{{0%2C+1}%2C{10%2C1.5}%2C{30%2C0.5}%2C{40%2C0.15}%2C+{50%2C+0}}&a=*FVarOpt.1-_***InterpolatingPolynomialCalculator.data2REPLACE_WITH_DASH_DASH.***InterpolatingPolynomialCalculator.dataREPLACE_WITH_DASH_DASH-.*REPLACE_WITH_DASH_DASH>
+
+
+##### SOURCE END #####
+--></body></html>
