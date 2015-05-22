@@ -1,0 +1,63 @@
+%% Creator: Inkscape 0.48.3.1, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'angles.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{735.02880859bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.18159685)%
+    \put(0,0){\includegraphics[width=\unitlength]{angles.pdf}}%
+    \put(0.14593198,0.06796148){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$\boldsymbol \phi_{\boldsymbol j}$}}}%
+    \put(0.12074884,0.00759943){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\textbf{person i}}}}%
+    \put(0.38691801,0.1218936){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\textbf{person j}}}}%
+    \put(-0.00101578,0.12550174){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\textbf{person j} }}}%
+    \put(0.49551268,0.0055564){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\textbf{person i}}}}%
+    \put(0.61161846,0.16095691){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\textbf{Target T}}}}%
+    \put(0.68571001,0.03388036){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{x}}}%
+    \put(0.32619611,0.03704066){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{x}}}%
+    \put(0.50966943,0.06618283){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$\boldsymbol \phi_{\boldsymbol T}$}}}%
+  \end{picture}%
+\endgroup%
