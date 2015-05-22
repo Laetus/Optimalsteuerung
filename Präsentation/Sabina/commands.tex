@@ -1,0 +1,197 @@
+% Commands to be used within the TUM report document
+% Included by MAIN.TEX
+% Please include your own cool commands here. 
+% Be only sure to comment it sufficiently so others can use it.
+
+%-------------------------------------------------------------
+%                      Own Commands
+%-------------------------------------------------------------
+
+
+%-------------------------------------------------------------
+% math stuff -------------------------------------------------
+
+% nice R, N, C
+\newcommand{\nat}{\mathbb{N}}
+\newcommand{\real}{\mathbb{R}}
+\newcommand{\compl}{\mathbb{C}}
+
+
+
+% norm
+\newcommand{\norm}[1]{\left\| #1 \right\|}
+
+% un demi
+\newcommand{\half}{\frac{1}{2}}
+
+% parantheses
+\newcommand{\parenth}[1]{ \left( #1 \right) }
+\newcommand{\bracket}[1]{ \left[ #1 \right] }
+\newcommand{\accolade}[1]{ \left\{ #1 \right\} }
+%\newcommand{\angle}[1]{ \left\langle  #1 \right\rangle }
+
+% partial derivative: %#1 function, #2 which variable
+% simple / single line version
+\newcommand{\pardevS}[2]{ \delta_{#1} f(#2) }
+% fraction version
+\newcommand{\pardevF}[2]{ \frac{\partial\, #1}{\partial\, #2} }
+
+% render vectors: 2, 3 and 4 dimensional
+\newcommand{\vecii}[2]{\begin{pmatrix} #1 \\ #2 \end{pmatrix}}
+%\newcommand{\vecii}[3]{\left[ \begin{array}[h]{c} #1 \\ #2	\end{array} \right]}
+%\newcommand{\veciii}[3]{\left[ \begin{array}[h]{c} #1 \\ #2 \\ #3	\end{array} \right]}
+%\newcommand{\veciv}[4]{\left[ \begin{array}[h]{c} #1 \\ #2 \\ #3 \\ #4	\end{array} \right]}
+
+
+% render matrices: 3  dimensional (arguments in row first order)
+\newcommand{\matiii}[9]{\left[ \begin{array}[h]{ccc} #1 & #2 & #3 \\ #4 & #5 & #6 \\ #7 & #8 & #9	\end{array} \right]}
+%DOESN'T WORK,DON'T KNOW WHY \newcommand{\mativ}[16]{\left[ \begin{array}[h]{cccc} #1 & #2 & #3 & #4 \\ #5 & #6 & #7 & #8 \\ #9 & #10 & #11 & #12 \\ #13 & #14 & #15 & #16 \end{array} \right]}
+
+
+%-------------------------------------------------------------
+%-------------------------------------------------------------
+
+
+%-------------------------------------------------------------
+% some abreviations ------------------------------------------
+\newcommand{\Reg}{$^{\textregistered}$}
+\newcommand{\reg}{$^{\textregistered}$ }
+\newcommand{\Tm}{\texttrademark}
+\newcommand{\tm}{\texttrademark~}
+\newcommand {\bsl} {$\backslash$}
+
+%-------------------------------------------------------------
+%-------------------------------------------------------------
+
+
+%-------------------------------------------------------------
+% formating --------------------------------------------------
+
+% inserting figures
+\newcommand{\insertfigure}[3]{ % Filename, Caption, Width percent of textwidth
+	\begin{figure}[h!]
+		\begin{center}
+			\includegraphics[width=#3\textwidth]{#1}
+		\end{center}
+		\vspace{-0.4cm}
+		\caption{#2}
+		\label{fig:#1}
+	\end{figure}
+}
+
+\newcommand{\insertsubfigures}[7]{ % caption, imageleft, captionleft, widthleft, imageright, captionright, widthright
+\begin{figure}[h!]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=#4\linewidth]{#2}
+  \caption{#3}
+  \label{fig:#2}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=#7\linewidth]{#5}
+  \caption{#6}
+  \label{fig:#5}
+\end{subfigure}
+\caption{#1}
+\label{fig:#2#5}
+\end{figure}
+}
+
+\newcommand{\insertsubfigurespdf}[7]{ % caption, imageleft, captionleft, widthleft, imageright, captionright, widthright
+\begin{figure}[h!]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+	\def\svgwidth{#4\textwidth}
+	\input{figures/#2.pdf_tex}
+  \caption{#3}
+  \label{fig:#2}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+	\def\svgwidth{#7\textwidth}
+	\input{figures/#5.pdf_tex}
+  \caption{#6}
+  \label{fig:#5}
+\end{subfigure}
+\caption{#1}
+\label{fig:#2#5}
+\end{figure}
+}
+
+% inserting inkskape figures
+\newcommand{\insertpdffigure}[3]{ % Filename, Caption, Label, Width percent of textwidth
+	\begin{figure}[h!]
+		\begin{center}
+			\def\svgwidth{#3\textwidth}
+			\input{#1.pdf_tex}
+		\end{center}
+		\vspace{-0.4cm}
+		\caption{#2}
+		\label{fig:#1}
+	\end{figure}
+}
+
+
+
+% referecing figures
+
+\newcommand{\refFigure}[1]{ %label
+	figure \ref{#1}
+}
+\newcommand{\refChapter}[1]{ %label
+	chapter \ref{#1}
+}
+
+\newcommand{\refSection}[1]{ %label
+	section \ref{#1}
+}
+
+\newcommand{\refParagraph}[1]{ %label
+	paragraph \ref{#1}
+}
+
+\newcommand{\refEquation}[1]{ %label
+	equation \ref{#1}
+}
+
+\newcommand{\refTable}[1]{ %label
+	table \ref{#1}
+}
+
+
+
+
+\newcommand{\rigidTransform}[2]
+{
+	${}^{#2}\!\mathbf{H}_{#1}$
+}
+
+% underline in a given color
+\newsavebox\MBox
+\newcommand\Cline[2][red]{{\sbox\MBox{#2}%
+  \rlap{\usebox\MBox}\color{#1}\rule[-1.5\dp\MBox]{\wd\MBox}{0.5pt}}}
+
+%code, in typewriter
+\newcommand{\code}[1]
+ {\texttt{#1}}
+
+% page clearing
+\newcommand{\clearemptydoublepage}{%
+  \ifthenelse{\boolean{@twoside}}{\newpage{\pagestyle{empty}\cleardoublepage}}%
+  {\clearpage}}
+  
+% TODO text, in red and as comment. the todo text is underlined.
+\newcommand{\TODO}[2]{\Cline[red]{#1}\comment{\textcolor{red}{#2}}}
+
+\newcommand\textbox[1]{%
+  \parbox{.333\textwidth}{#1}%
+}
+
+%-------------------------------------------------------------
+%-------------------------------------------------------------
+
+
+\newcommand{\etAl}{\emph{et al.}\mbox{ }}
