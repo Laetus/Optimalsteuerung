@@ -72,9 +72,9 @@ BCOR5mm, % Binding correction
 \begin{tabular}{ |l | c | r }
   \hline                       
 $\beta$  & steering angle \\
-$\mu(s) = \sum_{k=0}^2 \bar{\mu}_k s^k$ & \href{http://www.wolframalpha.com/input/?i=interpolate+polynom+&f1={{1%2C+0.9}%2C{0.5%2C0.7}%2C{0%2C0.1}}&f=InterpolatingPolynomialCalculator.data2_{{1%2C+0.9}%2C{0.5%2C0.7}%2C{0%2C0.1}}&a=*FVarOpt.1-_***InterpolatingPolynomialCalculator.data2--.***InterpolatingPolynomialCalculator.data---.*--}{static friction} \\
+$\mu(s) = \sum_{k=0}^2 \bar{\mu}_k s^k$ & \href{http://www.wolframalpha.com/input/?i=interpolate+polynom+&f1={{1%2C+0.9}%2C{0.5%2C0.7}%2C{0%2C0.1}}&f=InterpolatingPolynomialCalculator.data2_{{1%2C+0.9}%2C{0.5%2C0.7}%2C{0%2C0.1}}&a=*FVarOpt.1-_***InterpolatingPolynomialCalculator.data2--.***InterpolatingPolynomialCalculator.data---.*--}{static friction coefficient} \\
 $r$ & osculating circle \\
-$\omega$ & velocity of steering angel\\
+$\omega$ & velocity of steering angle\\
 $w$ & weather\\
 
   \hline  
@@ -83,26 +83,21 @@ $w$ & weather\\
 
 
 \section{ODE}
-If the maximum static friction $\mu(w(t)) m g$ is greater than or equal $\sqrt{\left(\frac{mv(t)^2}{r(t)}\right)^2+ \left(m \dot{v}\right)^2},$ the car does not slide. The dynamics reads as
-\begin{align*}
- &\dot{y} = v(t) \cos\beta(t)\\
-& \dot{z} = v(t) \sin\beta(t) \\
-& \dot{v} = \frac{1}{m}\left( \frac{M(t)}{R} - F_B(t) - \frac{1}{2}  c_w  \rho  A v(t)^2 - \left(f_{R0} + f_{R1} v(t) + f_{R4}v(t)^4 \right) m g\right)\\
-& \dot{\beta} = \omega_{\beta} 
-\end{align*}
-If the maximum static friction is less than $F_{res}(t) = \sqrt{\left(\frac{mv(t)^2}{r(t)}\right)^2+ \left(m \dot{v}\right)^2},$ the car slides. The rolling friction $\left(f_{R0} + f_{R1} v(t) + f_{R4}v(t)^4 \right) m g$ "turns into" dynamic friction $\mu_d m g.$ For simplicity, we could assume that the coefficient $\mu_d$ is constant. However, $\mu_d \approx 0.5 \cdot \mu(w(t)),$ in general.
+If the maximum static friction $F_s(t, \bar{\mu}) = \sum_{k=0}^2 \bar{\mu}_k w(t)^k mg $ is greater than or equal $F_{res}(t) = \sqrt{\left(\frac{mv(t)^2}{r(t)}\right)^2+ \left(m \dot{v}\right)^2},$ the car does not slide. 
+If the maximum static friction $F_s(t, \bar{\mu})$ is less than $F_{res}(t)$ the car slides. 
 The dynamics reads as
 \begin{align*}
- &\dot{y} = v(t) \cos\beta(t) +  v_r(t)\sin ( \frac{\pi}{2}+\alpha(t) +\beta(t)) \\
-& \dot{z} = v(t) \sin\beta(t) +  v_r(t)\cos ( \frac{\pi}{2}+\alpha(t) +\beta(t)) \\
-& \dot{v} = \frac{1}{m}\left( \frac{M(t)}{R} - F_B(t) - \frac{1}{2}  c_w  \rho  A v(t)^2 - \mu_d m g\right)\\
-& \dot{\beta} = \omega_{\beta},
+ &\dot{y} = v(t) \cos\beta(t) -  v_r(t)\sin \beta(t) \\
+& \dot{z} = v(t) \sin\beta(t) +  v_r(t)\cos \beta(t) \\
+& \dot{v} = \frac{1}{m}\left( \frac{M(t)}{R} - F_B(t) - \frac{1}{2}  c_w  \rho  A v(t)^2 -\left(f_{R0} + f_{R1} v(t) + f_{R4}v(t)^4 \right) m g\right)\\
+& \dot{v}_r = \begin{cases} \frac{1}{m}\left( \frac{v(t)^2}{r(t)} \frac{1}{\dot{v}} \left(F_{res}(t)- F_{s}(t) \right) \right) & \text{ if } F_{res}(t)- F_{s}(t) > 0, r(t) \neq 0, \dot{v} \neq 0\\
+0 &   \text{ else }
+\end{cases}\\
+& \dot{\beta} = \omega_{\beta}.
 \end{align*}
-where $\tan \alpha(t) = \frac{v(t)^2}{\dot{v}r(t)}$ and $\sin \alpha(t)  (F_{res}(t) - \mu(w(t)) mg ) = \frac{m v_r(t)^2}{r(t)}.$ \par
+ Since $\frac{v(t)^2}{r(t)} \ll \dot{v},$ I assumed that \href{http://www.wolframalpha.com/input/?i=plot+tan%28a%29+-+sin%28a%29+from+a+%3D+0..pi%2F8}{$\sin \alpha(t) \approx \tan \alpha(t),$} where 
+$\tan \alpha(t) = \frac{v(t)^2}{\dot{v}r(t)}$ and $\sin \alpha(t)  = \frac{F_r}{F_{res}(t)- F_{s}(t)}.$  Therefore, $F_r = m \dot{v}_r = \left( \frac{v(t)^2}{r(t)} \frac{1}{\dot{v}} \left(F_{res}(t)- F_{s}(t) \right) \right).$ \par
+\href{http://www.wolframalpha.com/input/?i=+sin%28artan%28x%29%29}{$\sin(\arctan(\alpha))= \frac{\alpha}{\sqrt{\alpha^2 +1}}$}
 
- \begin{figure}[t]
-    \centering
-    \includegraphics[angle = 270, scale=0.1]{pic}
-\end{figure} 
 
 \end{document}
