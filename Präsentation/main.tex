@@ -8,11 +8,32 @@
 \usepackage[english]{babel}
 \usepackage{lmodern}
 %\usepackage[pdftex]{graphicx}
-\usepackage{tikz}
 \usepackage{standalone}
-\usepackage{pgfplots}
+\usepackage{tikz,pgfplots}
 \usepgfplotslibrary{groupplots}
-\usepgfplotslibrary{units}
+\usepgfplotslibrary{units} 
+\usetikzlibrary{patterns}
+\usetikzlibrary{arrows}
+\usetikzlibrary{shapes.arrows}
+\usetikzlibrary{shapes.symbols}
+
+\pgfplotsset{
+            compat={1.3},
+            legend style={
+                        cells={anchor=west},
+                        legend pos=outer north east},
+            cycle list name=linestyles,
+            axis x line=center, %bottom,
+            axis y line=center, %left,
+            enlarge x limits=0.1,
+            enlarge y limits=0.2,
+            samples = {50},
+            samples y= {50}
+            %enlarge x limits={value=0.1, upper},
+            %axis equal=true,
+            %axis equal image = true,
+
+} 
 
 \title{Robust Optimization}
 \author{Annkathrin Kr\"{a}mmer, Sabina Przioda, Christian Kreipl, Johannes Milz}
