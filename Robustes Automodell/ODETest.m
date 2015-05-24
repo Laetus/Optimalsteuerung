@@ -11,11 +11,11 @@ w = 1;
 u = zeros(3,1);
 u(1) = 400;
 u(2) = 0;
-u(3) = 0.1;
+u(3) = 0.5;
 
 %% 
 %
-r =  2000; % radius of test course
+r =  200; % radius of test course
 
 %%
 %
