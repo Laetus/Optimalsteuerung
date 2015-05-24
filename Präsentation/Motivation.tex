@@ -3,19 +3,51 @@
 \frametitle{Motivation}
 
 
- steering a car 
- 
- \begin{align*}
-&\text{minimize} & \text{fuel consumption } \\
- & \text{s.t. } & \text{no crashes} \\
- & & \text{dynamics}\\
-
-\end{align*}
-
-\begin{block}{}
-Dynamics changes with weather.
-
+\begin{itemize}
+\item steering a car 
+\item minimize fuel consumption
+\item constraints
+\begin{itemize}
+\item avoid crashes
+\item dynamics
+\end{itemize}
+\end{itemize}
+\begin{block}{Problem}
+Dynamics change considerably, e.g. for different weather.
+\bigskip \\
+\MVRightarrow \ Robust Optimization
 \end{block}
+
+\note{
+\begin{itemize}
+\item Our goal is to steer a car such that the fuel consumption is minimal 
+\item Contraints: Avoid Crashes
+\begin{itemize}
+\item our car is not allowed to leave the road
+\item hit other cars or construction sites
+\end{itemize}
+\item Dynamics of the car
+\begin{itemize}
+\item motion of the car
+\begin{itemize}
+\item slipping behavior 
+\item acceleration behavior
+\end{itemize}
+\end{itemize}
+\item Problem: Changing weather has a major impact on the slipping behavior
+\begin{itemize}
+\item we cannot drive fast on icy roads
+\item Rain causes aquaplaning
+\end{itemize}
+\item Way out: Robust Optimization
+\begin{itemize}
+\item This Optimization method takes changing parameters such as weather into account.
+\item Car is steered save for changing conditions such as weather, different roads...
+\end{itemize}
+\end{itemize}
+}
+
+
 
 \end{frame}
 

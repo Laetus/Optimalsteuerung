@@ -1,7 +1,9 @@
 \documentclass{beamer}
 \usepackage{pgfpages}
+
 \setbeameroption{show notes}
 \setbeameroption{show notes on second screen=right}
+\setbeamerfont{note page}{size=\tiny}
 
 \usepackage[latin1]{inputenc}
 \usepackage[T1]{fontenc}
@@ -37,7 +39,7 @@
 
 \title{Robust Optimization}
 \author{Annkathrin Kr\"{a}mmer, Sabina Przioda, Christian Kreipl, Johannes Milz}
-\date{\today}
+\date{May 27, 2015}
 \institute{Technische Universit\"{a}t M\"{u}nchen}
 
 
@@ -52,6 +54,7 @@
 
 %\include{structure.tex}
 
+\usepackage{marvosym}
 
 \begin{document}
 
@@ -63,14 +66,28 @@
 \begin{frame}
 \frametitle{Contents}
 \tableofcontents
+\note{
+
+\begin{itemize}
+\item Our work is divided into 4 parts
+\begin{itemize}
+\item Model of a Car
+\item Mathematical problem formulation
+\item Implementation 
+\item Visualization
+\end{itemize}
+\end{itemize}
+
+
+}
 \end{frame}
 
 %------------------------------------------
 
 
-\section{Robust Optimization}
+\section{Motivation}
 
-\input{RO}
+\input{Motivation}
 
 %------------------------------------------
 
@@ -80,11 +97,14 @@
 
 %------------------------------------------
 
-\section{Problem Formulation}
+\section{Optimal Control Problem}
 
-\input{ProblemFormulation}
+
+\input{OptimalControlProblem}
+
 
 %------------------------------------------
+
 
 \section{Discretization}
 
@@ -92,6 +112,13 @@
 \input{MultipleShooting}
 
 %------------------------------------------
+
+\section{Robust Optimization Problem}
+
+\input{ProblemFormulation}
+
+%------------------------------------------
+
 
 
 \section{Visualization}
