@@ -30,8 +30,8 @@
 %\begin{equation*}
 %p\in\mathbb{P}_{box}=\left\{\left. p\in\mathbb{R}^{n_{p}} \right| p_{lower}\leq p \leq p_{upper}\right\}
 %\end{equation*}
-\onslide<3->
-Example:
+%\onslide<3->
+%Example:
 
 %\begin{align*}
 %
@@ -49,7 +49,8 @@ I think this might not be clear: Both, the weather and height are $\in \mathbb{R
 
 \begin{frame}
 \frametitle{Worst Case Formulation}
-
+\begin{overprint}
+\onslide<1>
 EXAMPLE?
 
 %\begin{align*}
@@ -57,8 +58,6 @@ EXAMPLE?
 %	&\text{s.t. } & g(x,u,p)=0\\
 %	& & p\in\mathbb{P}_{box}
 %\end{align*}
-
-
 
 %\begin{tabular}{ccl}
 %$\Phi_{i}(u):=$ & & $ \max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}} f_{i}(x,u)$\\
@@ -78,10 +77,26 @@ EXAMPLE?
 &\text{s.t. } &&\Phi_{i}(u)\leq 0 & \text{ for } & i=1,\ldots,n_{f}.
 \end{align*}
 $\Rightarrow$ bilevel structure!
-\note{
-I would not write the remark down.
-}
 \end{block}
+
+\onslide<2->
+EXAMPLE?
+
+\begin{align*}
+\Phi_{i}(u):= &&& \textcolor{blue}{\max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}}} f_{i}(x,u)\\
+& \text{s.t. } && g(x,u,p)=0\\
+&&& p\in\mathbb{P}_{box}
+\end{align*}
+
+\begin{block}{Robust Counterpart}
+	\begin{align*}
+	&&&\textcolor{blue}{\min_{u\in\mathbb{R}^{n_{u}}}} \Phi_{0}(u)\\
+	&\text{s.t. } &&\Phi_{i}(u)\leq 0 & \text{ for } & i=1,\ldots,n_{f}.
+	\end{align*}
+	\textcolor{blue}{$\Rightarrow$ bilevel structure!}
+\end{block}
+
+\end{overprint}
 
 \end{frame}
 
@@ -102,8 +117,12 @@ I would not write the remark down.
 \end{block}	
 	
 
+\onslide<2->
+\begin{center}
+convex \textbf{$\Downarrow$} optproblem
+\end{center}
 	
-\begin{block}	
+\begin{block}{Standard Optimization Problem}	
 
 \begin{align*}
 &&&\min_{u\in\mathbb{R}^{n_{u}}, \bar{x}\in\mathbb{R}^{n_{x}}} \tilde{\Phi}_{0}(u)\\
@@ -112,7 +131,6 @@ I would not write the remark down.
 \end{align*}
 \end{block} 
 	
-$\Rightarrow$ Standard Optimization Problem (SQP or else)
 
 \note{
 I would not write this commend down. (5 times 5 rule ;)
