@@ -1,4 +1,4 @@
-#################
+﻿#################
 ## Eclipse
 #################
 
@@ -222,6 +222,8 @@ pip-log.txt
 *.aux
 *.out
 *.synctex.gz
+*.bbl
+*.blg
 
 Präsentation/main.pdf
 Präsentation/main.pdf

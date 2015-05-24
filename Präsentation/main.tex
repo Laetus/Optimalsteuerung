@@ -5,9 +5,9 @@
 \setbeameroption{show notes on second screen=right}
 \setbeamerfont{note page}{size=\tiny}
 
-\usepackage[latin1]{inputenc}
+
 \usepackage[T1]{fontenc}
-\usepackage[english]{babel}
+\usepackage[english, ngerman]{babel}
 \usepackage{lmodern}
 %\usepackage[pdftex]{graphicx}
 \usepackage{standalone}
@@ -128,7 +128,13 @@
 %------------------------------------------
 
 
-\bibliography{lit.bib}
+
+\begin{frame}
+\frametitle{References}
+\nocite{*}
+\bibliographystyle{amsalpha}
+\bibliography{lit}
+\end{frame}
 
 \end{document}
 
