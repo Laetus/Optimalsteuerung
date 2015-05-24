@@ -1,33 +1,45 @@
 
 
 \begin{frame}
-\frametitle{Constraints for Parameters}
+\frametitle{Problem Formulation}
 
-\begin{block}
+\begin{block}{Discrete Optimization Problem}
 	
 \begin{align*}
  &&& \min_{x\in \mathbb{R}^{n_{x}}, u\in \mathbb{R}^{n_{u}}}  f_{0}(x, u)\\
 & \text{ s.t. } &&  f_{i}(x,u) \leq 0 & \text{ for } & i=1,\ldots,n_{f}\\
-&&&  g_{j}(x,u,p)=0 & \text{ for } & j=1,\ldots,n_{x},
+&&&  g_{j}(x,u,p)=0 & \text{ for } & j=1,\ldots,n_{x}
+%&\text{with} && p\in \mathbb{R}^{n_{p}} is an uncertain parameter vector.
 \end{align*}
-where $p\in \mathbb{R}^{n_{p}}$ is an uncertain parameter vector.
-
-\end{block}
-
-
-\begin{block}
-
+\begin{overprint}
+\onslide<1>
 \begin{equation*}
-\mathbb{P}_{box}=\left\{\left. p \right| p_{l}\leq p \leq p_{u}\right\}
+\text{with } p\in \mathbb{R}^{n_{p}} \text{ uncertain parameter vector}
 \end{equation*}
-$p_{l}$: lower bound, $p_{u}$: upper bound
-\begin{align*}
-& \text{weather: }  & \left\{\left. p \right| 0\leq p\leq 1\right\} \\
-& \text{height profil: } & \left\{\left. p \right| 0\leq p\leq 45\right\}
-\end{align*}
 
-
+\onslide<2->
+\begin{equation*}
+\text{with } p\in\mathbb{P}_{box}=\left\{\left. p\in\mathbb{R}^{n_{p}} \right| p_{lower}\leq p \leq p_{upper}\right\}
+\end{equation*}
+\end{overprint}
 \end{block}
+
+
+%\begin{block}{Constraint for Parameter Vector}
+%
+%\begin{equation*}
+%p\in\mathbb{P}_{box}=\left\{\left. p\in\mathbb{R}^{n_{p}} \right| p_{lower}\leq p \leq p_{upper}\right\}
+%\end{equation*}
+\onslide<3->
+Example:
+
+%\begin{align*}
+%
+%& \text{height profil: } & \left\{\left. p \right| 0\leq p\leq 45\right\}
+%\end{align*}
+
+
+%\end{block}
 
 \note{
 I think this might not be clear: Both, the weather and height are $\in \mathbb{R}^{n_p}$ or not necessarily the same dimension? Later, you write $p in \mathbb{P}_{box}$
@@ -35,17 +47,29 @@ I think this might not be clear: Both, the weather and height are $\in \mathbb{R
 
 \end{frame}
 
-
-%<<<<<<< HEAD
 \begin{frame}
 \frametitle{Worst Case Formulation}
 
 EXAMPLE?
 
+%\begin{align*}
+%\Phi_{i}(u):= & & \max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}} f_{i}(x,u)\\
+%	&\text{s.t. } & g(x,u,p)=0\\
+%	& & p\in\mathbb{P}_{box}
+%\end{align*}
+
+
+
+%\begin{tabular}{ccl}
+%$\Phi_{i}(u):=$ & & $ \max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}} f_{i}(x,u)$\\
+%&$\text{s.t. }$ & $g(x,u,p)=0$\\
+%& & $p\in\mathbb{P}_{box}$
+%\end{tabular}
+
 \begin{align*}
-&&&\Phi_{i}(u)=\max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}} f_{i}(x,u)\\
-	& \text{s.t. } && g(x,u,p)=0\\
-	&&& p\in\mathbb{P}_{box}
+\Phi_{i}(u):= &&& \max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}} f_{i}(x,u)\\
+& \text{s.t. } && g(x,u,p)=0\\
+&&& p\in\mathbb{P}_{box}
 \end{align*}
 
 \begin{block}{Robust Counterpart}
@@ -65,10 +89,11 @@ I would not write the remark down.
 	\frametitle{Approximation Technique}
 
 \begin{block}{Linearization}
+	
 	\begin{align*}
-	&&&\tilde{\Phi}_{i}(u)=\max_{(x-\bar{x})\in\mathbb{R}^{n_{x}}, (p-\bar{p})\in\mathbb{R}^{n_{p}}} f_{i}(\bar{x}, u)+\frac{\partial f_{i}}{\partial x}(\bar{x}, u)(x-\bar{x})\\
-	&\text{s.t.} && \frac{\partial g}{\partial x}(\bar{x}, u, \bar{p})(x-\bar{x})+\frac{\partial g}{\partial p}(\bar{x}, u, \bar{p})(p-\bar{p})=0\\
-	&&&p-\bar{p} s.th. p\in\mathbb{P}_{box}
+	\tilde{\Phi}_{i}(u):= &&& \max_{(x-\bar{x})\in\mathbb{R}^{n_{x}}, (p-\bar{p})\in\mathbb{R}^{n_{p}}} f_{i}(\bar{x}, u)+\frac{\partial f_{i}}{\partial x}(\bar{x}, u)(x-\bar{x}) \\
+	& \text{s.t.} && \frac{\partial g}{\partial x}(\bar{x}, u, \bar{p})(x-\bar{x})+\frac{\partial g}{\partial p}(\bar{x}, u, \bar{p})(p-\bar{p})=0 \\
+	&&& p-\bar{p} \text{ s.th. } p\in\mathbb{P}_{box}
 	\end{align*}
 	
 	\note{
@@ -83,7 +108,7 @@ I would not write the remark down.
 \begin{align*}
 &&&\min_{u\in\mathbb{R}^{n_{u}}, \bar{x}\in\mathbb{R}^{n_{x}}} \tilde{\Phi}_{0}(u)\\
 &\text{s.t.} &&  \tilde{\Phi}_{i}(u)\leq 0 & \text{ for } & i=1,\ldots,n_{f}\\
-&&&g(\bar{x}, u, \bar{p})=0
+&&& g(\bar{x}, u, \bar{p})=0
 \end{align*}
 \end{block} 
 	
@@ -93,5 +118,3 @@ $\Rightarrow$ Standard Optimization Problem (SQP or else)
 I would not write this commend down. (5 times 5 rule ;)
 }
 \end{frame}
-%=======
-%>>>>>>> origin/master
