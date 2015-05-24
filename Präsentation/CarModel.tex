@@ -3,13 +3,57 @@
 \frametitle{Model of Car}
 
 
+\begin{figure}[T]
+\centering
+\includestandalone[angle = -10, width=0.8\textwidth]{cartikz}
+\end{figure}
+
+
+
+
+
 \note{
-
 \begin{itemize}
-\item Bla
+\item Our car is described as a pointmass, for simplicity
+\item Road is visualized in gray
+\item Car as a rectangle
+\item steering angle is denoted by $\beta(t)$
+\begin{itemize}
+\item We applied Newton's mechanic
+\item The motion/ direction of motion is described with 
+\begin{itemize}
+\item The steering angle $\beta(t)$
+\item The acceleration force pushing the car forward 
+\item The central forces 
+\item If the speed of the car is to high, it slides and may leave the road.
 \end{itemize}
-Das ist eine Bemerkung.
-
+\end{itemize}
+\end{itemize}
 }
 
+\end{frame}
+
+\begin{frame}
+\frametitle{Dynamical System}
+
+\begin{align*}
+& \dot{x}(t) = G(x(t), u(t), p) & x(0) = x_0,
+\end{align*}
+where 
+\begin{align*}
+& x \in C^1([0, t_f], \mathbb{R}^{n_x}) \text{ is the state variable,}\\
+& u \in C^1([0, t_f], \mathbb{R}^{n_u}) \text{ is the control variable,}\\
+& p \in \mathbb{R}^{n_p} \text{ is the uncertain parameter vector.}
+\end{align*}
+
+
+\note{
+\begin{itemize}
+\item Motion of the car is described as a dynamical system, i.e., with a ODE and an initial value
+\item $t_f$ is the final time
+\item our states: path, velocity, steering angle
+\item control: brake, motor torque (gas petal), steering angle velocity
+\item parameter: weather, rolling friction coefficients, uncertain sea level due to wrong NAVI data
+\end{itemize}
+}
 \end{frame}
