@@ -1,0 +1,152 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate} %fÃ¼r beschriftete Nummerierung
+\usepackage{multirow} %mehrere Zeilen zusammenfassen
+
+\usepackage{makeidx} %fÃ¼rs Stichwortverzeichnis
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+
+\usepackage{makeidx}
+
+\usepackage{hyperref} %links im inhaltsverzeichnis, muss als letztes stehen
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{plain}
+\newtheorem{satz}{Satz}
+
+
+\makeindex
+
+\begin{document}
+	
+	\section{Optimierungsproblem unseres ersten Automodells ohne Parameter}
+
+	
+	Wir fixieren die Endzeit $t_{f}$ beliebig, aber groß genug, so dass das Auto die vorgesehene Strecke schafft. In unserem ersten Modell sei $t_{f}=120$. Zudem beinhaltet unser Optimalsteuerungsproblem den Zustand $x(t)=\begin{pmatrix} y(t) \\ v(t) \end{pmatrix}$ und die
+	Steuerung $u(t)=\begin{pmatrix} M_{wh}(t) \\ F_B(t) \end{pmatrix}$
+	
+	\subsection{Definition der Gitter}
+	
+	\subsubsection{Approximation der Steuerung $u(t)$ durch $u_{h}(t)$}
+	Wir diskretisieren die Steuerung $u(t)$ entweder durch eine stückweise konstante oder durch eine stetige, stückweise lineare Funktion.
+	\begin{itemize}
+		\item Steuerungsgitter $G_{u}=\left\{0=t_{0} < t_{1} < ... < t_{N}=t_{f} \right\}$ mit
+		$h=\frac{t_{f}}{N}$\\
+		Dies ergibt uns die $N+1$ Variablen $u_{h}(t_{i})$ für unser Optimierungsproblem.
+		\item Approximation durch eine stückweise konstante Funktion
+		\begin{equation*}
+		u_{h}(t)=\sum_{i=1}^{N}c_{i}B_{i}^{1}(t)
+		\end{equation*}
+		mit $c_{i}= u(t_{i})$ und $B_{i}^{1}(t)=\begin{cases} 1 & f"ur\  t_{i-1}\leq t< t_{i} \\ 0 & sonst \end{cases}$
+		\item Approximation durch eine stetige, stückweise lineare Funktion
+	\end{itemize}
+	
+	
+	\subsubsection{Approximation des Zustandes}
+	Der Zustand $x(t)$ wird uns durch folgende Differentialgleichung beschrieben:
+	\begin{equation*}
+	\dot{x}(t)=\begin{pmatrix}
+	v \\
+	\frac{1}{m}(\frac{M_{wh}(t)}{R}-F_{B}(t)-F_{A}(v(t)))\end{pmatrix}
+	=\begin{pmatrix} (x(t))_{2}\\ \frac{1}{m}(\frac{(u(t))_{1}}{R}-(u(t))_{2}-F_{A}((x(t))_{2})
+	\end{pmatrix}
+	\end{equation*}
+	Sie gilt es nun in Gleichungsnebenbedingungen für unser Optimimierungsproblem umzuwandeln. Dafür verwenden wir das Multiple Shooting mit einem Runge Kutta Verfahren zur Lösung der Teildifferentialgeleichungen:
+	\begin{itemize}
+		\item Zustandsgitter: $G_{x}=\left\{0=T_{0}< T_{1}< ... < T_{M}=t_{f}\right\}$
+		\item Löse in jedem Zustandsgitterintervall $[T_{i}, T_{i+1}]$, $i=0,..., M-1$ ausgehend von Startschätzungen $X_{i}$ des Zustandes $x$ an den Zustandsgitterpunkten $T_{i}$ das Anfangswertproblem mit Runge Kutta
+		\begin{equation*}
+		\dot{x}(t)=f(t, x(t), u_{h}(t)) \; mit \  x(T_{i})=X_{i}
+		\end{equation*}
+		also
+		\begin{equation*}
+		\dot{x}(t)=\begin{pmatrix} (x(t))_{2}\\ \frac{1}{m}(\frac{(u_{h}(t))_{1}}{R}-(u_{h}(t))_{2}-F_{A}((x(t))_{2})
+		\end{pmatrix} \; mit \  x(T_{i})=X_{i}.
+		\end{equation*}
+		
+		Dabei ist $X_{i}=(Y_{i}, V_{i})^{T}$ mit $Y_{i}=y(T_{i})$ und $V_{i}=v(T_{i})$.
+		\\ Dabei sollten die Steuergitterpunkte aus $G_{u}$ stets auch Gitterpunkte des Runge Kutta Verfahrens sein. Eventuell können zuerst $G_{x}$ und ein Diskretisierungsgitter für das Runge Kutta Verfahren gewählt werden und dann die dafür benötigten Funktionswerte von $u$ als Optimierungsvariablen $u_{h}(t_{i})$ aufgefasst werden. Dies ist aber nicht nötig.
+	
+		\item Sei $z=(X_{0},X_{1},...,X_{M-1},X_{M}=x(t_{f}), u_{h}(t_{0}), u_{h}(t_{1}), ..., u_{h}(t_{N})=u_{h}(t_{f}))$. Wir bezeichnen die Lösung des Runge Kutta Verfahrens in $[T_{i}, T_{i+1}]$ mit $X^{i}(t,z)$ für $i=0,...,M-1$ (stetige Fortsetzung der von Runge Kutta gelieferten Werte). Damit ist die Näherungslösung für $x$ auf $[0, t_{f}]$:
+		\begin{equation*}
+		X(t,z)=\begin{cases}
+		X^{i}(t,z) & f"ur\ t\in [T_{i}, T_{i+1}], \  \; i=0,..., M-1 \\
+		X_{M} & t=t_{f}
+		\end{cases}
+		\end{equation*}
+		
+		
+	\end{itemize}
+		
+	
+	\subsection{Unser Optimierungsproblem in Standardform und ohne Parameter}
+	Erinnerung: Unsere Zielfunktion war
+	
+	\begin{align*}
+	f_0(x(t_f), t_f) & =  c_{1} \int F_A(v) v(t)  + \frac{M_{wh}}{R} v(t) + F_Rv(t) - c_{2}\cdot y(t_{f})\\
+	&= 0.5c_1 c_w \rho A \int v(t)^3 dt + \frac{c_1}{R} \int M_{wh}(t)v(t) dt \\
+	&\; + c_1 \int f_R m g \int v(t) dt -c_2 y(t_f)\\
+	&= 0.5c_1 c_w \rho A \int x_2^3 dt + \frac{c_1}{R} \int u_1(t)x_2(t) dt + (c_1 f_r m g -c_2) x_1(t_f)
+	\end{align*}
+	
+	In unserem ersten Modell vernachlässigen wir noch den Luftwiderstand, d.h. wir lassen den ersten Summanden erstmal weg.\\
+	
+	Diese Zielfunktion wollen wir bezüglich des Zustandes $x(t)=\begin{pmatrix} y(t) \\ v(t) \end{pmatrix}$ und der Steuerung $u(t)=\begin{pmatrix} M_{wh}(t) \\ F_B(t) \end{pmatrix}$ minimieren. Da diese Elemente des unendlichdimensionalen Funktionenraumes sind, haben wir sie bereits oben diskretisiert.
+	Damit ist unsere Optimierungsvariable \begin{align*}
+	z&=(X_{0},X_{1},...,X_{M-1},X_{M}=x(t_{f}), u_{h}(t_{0}), u_{h}(t_{1}), ..., u_{h}(t_{N})=u_{h}(t_{f}))\\
+	&\in \mathbb{R}^{n_{x}\cdot (M+1)+n_{u}\cdot (N+1)}
+	\end{align*}
+	Hier bei unserem ersten Optimierungsproblem ist $n_{x}=2$ und $n_{u}=2$ und wir setzen $N=M$, d.h. die $t_{i}'s$ und $T_{i}'s$ stimmen überein.\\
+	
+	Unser Optimierungsproblem ergibt sich wie folgt (mit $c_{1}$ und $c_{2}$ Gewichtungsparameter) %und $c=(u(t_{0}), u(t_{1}), ..., u(t_{N})=u(t_{f}))$):
+	
+	\begin{equation}
+	\underset{z}{min}\ \frac{c_1}{R} \sum_{i=0}^{N-1} (u_{h}(t_{i}))_{1}(X(t_{i},z))_{2}\cdot h + (c_1 f_r m g -c_2) (X_{M})_{1}
+	\end{equation}
+	
+	unter den Randbedingungen
+	\begin{align}
+	X_{0} &= \begin{pmatrix}
+	0 \\ 0
+	\end{pmatrix}\\
+	(X_{M})_{2} &= 0
+	\end{align}
+	
+	den gemischten Steuer- und Zustandsbeschränkungen
+	\begin{equation}
+	(u_{h}(t_{i}))_{1} \leq R(\ (u_{h}(t_{i}))_{2} + F_A((X(t_{i},z))_{2}\ ) + F_R + m\cdot a_{max}((X(t_{i},z))_{2}) 
+	\end{equation}
+	$$ f"ur \ alle \ i=0,...,N$$
+	
+	der Boxschranke
+	\begin{equation}
+	0\leq (u_{h}(t_{i}))_{2}\leq F_{B, max}
+	\end{equation}
+	$$ f"ur \ alle \ i=0,...,N$$
+	
+	und der Stetigkeitsbedingung an die Knoten $T_{i}$
+	\begin{equation}
+	X^{i}(T_{i+1},z)-X_{i+1}=0
+	\end{equation}
+	$$ f"ur \ alle \ i=0,..., M-1$$
+	
+	Hierauf ist nun das innere Punkte Verfahren anwendbar. Das Ziel wäre noch, die Ableitungen der Zielfunktion und der Nebenbedingungen dem Solver zu übergeben. Die dafür benötigten Gradienten und Jacobimatrizen können über eine Sensitivitätsanalyse bestimmt werden.\\
+	\\
+	Anmerkung: Die Integrale der Zielfunktion lassen sich noch durch bessere Quadraturformeln nähern!
+	
+	\subsection{Quellen}
+	Gerdts, Matthias: Optimale Steuerung, Universität Würzburg, Wintersemester 2009/2010\\
+	\\
+	Moritz Diehl, Hans Georg Bock, Holger Diedam, Pierre-Brice Wieber. Fast Direct Multiple
+	Shooting Algorithms for Optimal Robot Control. Fast Motions in Biomechanics and Robotics,
+	2005, Heidelberg, Germany.
+	
+\end{document}	
