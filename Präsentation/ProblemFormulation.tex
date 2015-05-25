@@ -9,7 +9,6 @@
  &&& \min_{x\in \mathbb{R}^{n_{x}}, u\in \mathbb{R}^{n_{u}}}  f_{0}(x, u)\\
 & \text{ s.t. } &&  f_{i}(x,u) \leq 0 & \text{ for } & i=1,\ldots,n_{f}\\
 &&&  g_{j}(x,u,p)=0 & \text{ for } & j=1,\ldots,n_{x}
-%&\text{with} && p\in \mathbb{R}^{n_{p}} is an uncertain parameter vector.
 \end{align*}
 \begin{overprint}
 \onslide<1>
@@ -24,26 +23,13 @@
 \end{overprint}
 \end{block}
 
+\onslide<3->
 
-%\begin{block}{Constraint for Parameter Vector}
-%
-%\begin{equation*}
-%p\in\mathbb{P}_{box}=\left\{\left. p\in\mathbb{R}^{n_{p}} \right| p_{lower}\leq p \leq p_{upper}\right\}
-%\end{equation*}
-%\onslide<3->
-%Example:
-
-%\begin{align*}
-%
-%& \text{height profil: } & \left\{\left. p \right| 0\leq p\leq 45\right\}
-%\end{align*}
-
-
-%\end{block}
-
-\note{
-I think this might not be clear: Both, the weather and height are $\in \mathbb{R}^{n_p}$ or not necessarily the same dimension? Later, you write $p in \mathbb{P}_{box}$
-}
+\begin{align*}
+ \leadsto \Phi_{i}(u):= &&& \max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}} f_{i}(x,u)& \text{ for every } i=0,...,n_{f}\\
+& \text{s.t. } && g(x,u,p)=0\\
+&&& p\in\mathbb{P}_{box}
+\end{align*}
 
 \end{frame}
 
@@ -51,22 +37,9 @@ I think this might not be clear: Both, the weather and height are $\in \mathbb{R
 \frametitle{Worst Case Formulation}
 \begin{overprint}
 \onslide<1>
-EXAMPLE?
-
-%\begin{align*}
-%\Phi_{i}(u):= & & \max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}} f_{i}(x,u)\\
-%	&\text{s.t. } & g(x,u,p)=0\\
-%	& & p\in\mathbb{P}_{box}
-%\end{align*}
-
-%\begin{tabular}{ccl}
-%$\Phi_{i}(u):=$ & & $ \max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}} f_{i}(x,u)$\\
-%&$\text{s.t. }$ & $g(x,u,p)=0$\\
-%& & $p\in\mathbb{P}_{box}$
-%\end{tabular}
 
 \begin{align*}
-\Phi_{i}(u):= &&& \max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}} f_{i}(x,u)\\
+\Phi_{i}(u):= &&& \max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}} f_{i}(x,u) & \text{ for every } i=0,...,n_{f}\\
 & \text{s.t. } && g(x,u,p)=0\\
 &&& p\in\mathbb{P}_{box}
 \end{align*}
@@ -79,11 +52,9 @@ EXAMPLE?
 $\Rightarrow$ bilevel structure!
 \end{block}
 
-\onslide<2->
-EXAMPLE?
-
+\onslide<2>
 \begin{align*}
-\Phi_{i}(u):= &&& \textcolor{blue}{\max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}}} f_{i}(x,u)\\
+\Phi_{i}(u):= &&& \textcolor{blue}{\max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}}} f_{i}(x,u) &  \text{ for every } i=0,...,n_{f}\\
 & \text{s.t. } && g(x,u,p)=0\\
 &&& p\in\mathbb{P}_{box}
 \end{align*}
@@ -96,6 +67,21 @@ EXAMPLE?
 	\textcolor{blue}{$\Rightarrow$ bilevel structure!}
 \end{block}
 
+\onslide<3->
+\begin{align*}
+\Phi_{i}(u):= &&& \textcolor{blue}{\max_{x\in \mathbb{R}^{n_{x}}, p\in \mathbb{R}^{n_{p}}}} f_{i}(x,u) &  \text{ for every } i=0,...,n_{f}\\
+& \text{s.t. } && g(x,u,p)=0\\
+&&& p\in\mathbb{P}_{box}
+\end{align*}
+
+\begin{block}{Robust Counterpart}
+	\begin{align*}
+	&&&\textcolor{blue}{\min_{u\in\mathbb{R}^{n_{u}}}} \tilde{\Phi}_{0}(u)\\
+	&\text{s.t. } &&\tilde{\Phi}_{i}(u)\leq 0 & \text{ for } & i=1,\ldots,n_{f}.
+	\end{align*}
+	\sout{\textcolor{blue}{$\Rightarrow$ bilevel structure!}}
+\end{block}
+
 \end{overprint}
 
 \end{frame}
@@ -104,24 +90,19 @@ EXAMPLE?
 	\frametitle{Approximation Technique}
 
 \begin{block}{Linearization}
-	
+at a point $(\bar{x}, u, \bar{p})$ with $g(\bar{x}, u, \bar{p})=0$ and $\bar{p}=\frac{p_{lower}+p_{upper}}{2}$:	
 	\begin{align*}
 	\tilde{\Phi}_{i}(u):= &&& \max_{(x-\bar{x})\in\mathbb{R}^{n_{x}}, (p-\bar{p})\in\mathbb{R}^{n_{p}}} f_{i}(\bar{x}, u)+\frac{\partial f_{i}}{\partial x}(\bar{x}, u)(x-\bar{x}) \\
 	& \text{s.t.} && \frac{\partial g}{\partial x}(\bar{x}, u, \bar{p})(x-\bar{x})+\frac{\partial g}{\partial p}(\bar{x}, u, \bar{p})(p-\bar{p})=0 \\
-	&&& p-\bar{p} \text{ s.th. } p\in\mathbb{P}_{box}
+	&&& p\in\mathbb{P}_{box}
 	\end{align*}
-	
-	\note{
-	Might not be clear what s.th. means	
-	}
+
 \end{block}	
 	
 
 \onslide<2->
-\begin{center}
-convex \textbf{$\Downarrow$} optproblem
-\end{center}
-	
+
+With a unique optimal solution $\tilde{\Phi}_{i}(u)$: 
 \begin{block}{Standard Optimization Problem}	
 
 \begin{align*}
@@ -131,8 +112,4 @@ convex \textbf{$\Downarrow$} optproblem
 \end{align*}
 \end{block} 
 	
-
-\note{
-I would not write this commend down. (5 times 5 rule ;)
-}
 \end{frame}
