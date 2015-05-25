@@ -12,6 +12,7 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{graphicx}
+\usepackage{color}
 
 \usepackage{makeidx}
 
@@ -23,10 +24,93 @@
 \newtheorem{satz}{Satz}
 	
 \begin{document}
-	
-\title{Robustes Optimalsteuerungsproblem (Direct Approximation Approach) mit Slackvariablen}
+\title{Standardform des robusten Optimalsteuerungsproblems (Direct robust counterpart formulation) mit Slackvariablen}
 \author{Annkathrin}
 \maketitle
+
+\tableofcontents
+
+\section{Übersichtlichere Form}
+
+\subsection*{Zielfunktion}
+\begin{equation}
+\min_{T, u(.), x(.), s_{0,0}, s_{0,1},..., s_{0, n_{f}},..., s_{n_{f},j}, D(.)} f_{0}(x(T), T)+e^{T}s_{0}
+\end{equation}
+Mit
+\begin{itemize}
+\item $f_{0}$: Zielfunktion aus Automodell (unseres ursprünglichen Problems)
+	
+\item $e^{T}=(1,1,...,1)\in\mathbb{R}^{n_{p}}$.
+
+\item $s_{i,j}$: Slackvariablen, die benötigt werden, um Nichtdifferenzierbarkeit der Unendlichnorm (resultierend aus approximated robust counterpart, vgl. Diehl (11)-(13)) zu beseitigen. (vgl. Diehl (23)-(26) im diskreten Fall)
+
+\item $D(.)$: Sensitivitäts-Matrix, die aus der numerisch effizienten Problemformulierung resultiert (vgl. Diehl (14)-(17) oder (31)-(32)).
+\begin{equation*}
+D(t)=\frac{dx(t)}{dx(0)}\frac{\partial x_{0}}{\partial p}(p)
+\end{equation*}
+
+\end{itemize}
+
+\subsection*{Ungleichungsnebenbedingungen}
+\begin{align}
+f_{i}(x(t_{j}), t_{j})+e^{T}s_{i,j} &\leq 0 & \text{ for } i=1,...,n_{f}, j \text{ abhängig Gitter}\\
+-AD(t_{j})^{T}\left(\frac{\partial f_{i}}{\partial x}(x(t_{j}), t_{j})\right)^{T}-s_{i,j}&\leq 0 &  \text{ for } i=1,...,n_{f}, j \text{ abhängig Gitter} \\
+AD(t_{j})^{T}\left(\frac{\partial f_{i}}{\partial x}(x(t_{j}), t_{j})\right)^{T}-s_{i,j}&\leq 0 &  \text{ for } i=1,...,n_{f}, j \text{ abhängig Gitter}
+\end{align}
+Dabei kommem die zweite und dritte Ungleichungsserien von der oben genannten Slackformulierung (vgl. Diehl (23)-(26) im diskreten Fall).\\
+\\
+Mit:
+\begin{itemize}
+	\item $f_{i}$: Ungleichungsbedingungen, die unsere Straße und die Beschränkung der Steuerung beschreiben.
+	
+	\item $t_{j}$: Interpolationszeitpunkte der Straße/Gitterpunkte für die Ungleichungsbedingungen der Straße (eventuell gleich der Gitterpunkte bei der späteren Diskretisierung des Optimalsteuerungsproblems)
+	
+	\item $A$: Matrix aus der Beschreibung der für die Parametermenge verwendeten Höldernorm: $\| p \|=\|A^{-1}p\|_{\infty}$ (vgl. Diehl S.213 f.)
+	\begin{equation*}
+	A=diag\left(\frac{p_{u}-p_{l}}{2}\right)^{-1}
+	\end{equation*} 
+	
+\end{itemize}
+
+\subsection*{DGLs}
+\begin{align}
+\frac{dx(t)}{dt}&= G(x(t), u(t)) & \forall t\in [0,T]\\
+\frac{ds_{i,j}}{dt}&= 0 & \forall t\in [0,T]\\
+\frac{dD(t)}{dt}&= \frac{\partial G}{\partial x}(x(t), u(t))D(t) & \forall t\in [0,T]\\
+x(0)&= x_{0}(p) &\\
+s_{i,j}(0)&= s_{i,j} &\\
+D(0)&= \frac{\partial x_{0}}{\partial p}(p) &
+\end{align}
+Dabei kommt die dritte DGL von der oben genannten numerisch effizienten Problemformulierung (vgl. Diehl (14)-(17) oder (31)-(32)).\\
+Der zweite Satz DGLs wird eingeführt, damit das Problem in Standardform formuliert ist. Der numerische Integrator müsste sie als triviale DGLs erkennen.\\
+\\
+Mit:
+\begin{itemize}
+	\item $G$: Beschreibung der Dynamik des Autos.
+	
+\end{itemize}
+
+
+
+\section{Resultierende Standardform}
+Dafür schreibe die Matrix $D=\left(\begin{array}{c}
+-D_{1}(t)-\\
+-D_{2}(t)-\\
+...\\
+-D_{n_{p}(t)-}
+\end{array}\right)$ als Spaltenvektor: $\left(\begin{array}{c}
+D_{1}(t)\\
+D_{2}(t)\\
+...\\
+D_{n_{p}}(t)
+\end{array}\right)$.\\
+Sei $z=(x(.), s_{0,0}, s_{0,1},..., s_{0, n_{f}},..., s_{n_{f},j}, D_{1}(.),..., D_{n_{p}}(.))^{T}$ der Zustandsvektor. Dann ist die Standardnormalform
+\begin{equation}
+\min_{T, u(.),z(.)} f_{0}(z_{1}(T), T)+e^{T}s_{0}
+\end{equation}
+Die Nebenbedingung und die DGL erhält man durch zusammenfassen von (2)-(4) bzw. von (5)-(10) zu einer Ungleichung bzw. DGL und durch Ersetzen der Zustände durch ihren jeweiligen $z$-Eintrag.\\ 
+
+\textcolor{red}{\textbf{Achtung:}} $x$ besteht nicht mehr nur aus den Autozuständen $y,v,Lenkwinkel$, sondern wird pro Integral in der ursprünglichen Zielfunktion unserer Autobeschreibung und pro Parameter $p_{i}$ vergrößert. Letzteres müsste bereits in der Dynamikbeschreibung durch $G$ enthalten sein und auch ersteres müsste darin aufgenommen werden.
 
 
 \end{document}
