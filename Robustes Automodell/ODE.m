@@ -23,13 +23,16 @@ dx(3) = 1/cCCP.m *( u(1)/cCCP.R - u(2) ...
     -(fR(1) + fR(2)./30*x(3) + fR(3) * (x(3)./30)^4) * cCCP.m * cCCP.g);
 
 
-Fres_Fs = sqrt( x(3)^4 / (r)^2 + dx(3)^2 ) ...
-    - (mu(1) + mu(2) * w + mu(3) * w^2) * cCCP.g;
+Fres_Fs = x(3)^4 / (r)^2 + dx(3)^2  ...
+    - ((mu(1) + mu(2) * w + mu(3) * w^2) * cCCP.g)^2;
+
+%Fres_Fs = sqrt(x(3)^4 / (r)^2 + dx(3)^2 ) ...
+%    - (mu(1) + mu(2) * w + mu(3) * w^2) * cCCP.g;
 
 if(Fres_Fs > 0)
     %dx(4) = x(3)^2/(r)/dx(3) * Fres_Fs;
     %dx(4) = Fres_Fs * sin(atan(x(3)^2/dx(3)/r));
-    dx(4) =  Fres_Fs/5 *(x(3)^2/(r) - 0.5 * (mu(1) + mu(2) * w + mu(3) * w^2) * cCCP.g) ;
+    dx(4) =  (Fres_Fs/120)^3 *(x(3)^2/(r) - 0.5 * (mu(1) + mu(2) * w + mu(3) * w^2) * cCCP.g) ;
     %dx(4) = x(3)^2/(r)/dx(3)*Fres_Fs-0.5 *(fR(1)  + fR(2)./30*x(4) + fR(3) * (x(4)./30)^4) * cCCP.g;
 else
     dx(4) = 0;

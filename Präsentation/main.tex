@@ -11,7 +11,7 @@
 \usepackage{lmodern}
 %\usepackage[pdftex]{graphicx}
 \usepackage{standalone}
-\usepackage{mnsymbol}
+\usepackage{MnSymbol}
 \usepackage{ulem}
 \usepackage{tikz,pgfplots}
 \usepgfplotslibrary{groupplots}
@@ -49,7 +49,9 @@
 
 %-----------------------------------------
 
-\setbeamertemplate{footline}[frame number]
+%\setbeamertemplate{footline}[frame number]
+    \setbeamertemplate{footline}{%
+      \raisebox{5pt}{\makebox[\paperwidth]{\hfill\makebox[8pt]{\scriptsize\insertframenumber}}}}
 \usecolortheme{rose}
 \useinnertheme[shadow]{rounded}
 
@@ -131,10 +133,10 @@
 
 
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{References}
 \nocite{*}
-\bibliographystyle{amsalpha}
+\bibliographystyle{apalike}
 \bibliography{lit}
 \end{frame}
 

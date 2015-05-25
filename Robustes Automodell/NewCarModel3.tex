@@ -84,24 +84,28 @@ $w$ & weather\\
 
 \section{ODE}
 If the maximum static friction $F_s(t, \bar{\mu}) = \sum_{k=0}^2 \bar{\mu}_k w(t)^k mg $ is greater than or equal $F_{res}(t) = \sqrt{\left(\frac{mv(t)^2}{r(t)}\right)^2+ \left(m \dot{v}\right)^2},$ the car does not slide. 
-If the maximum static friction $F_s(t, \bar{\mu})$ is less than $F_{res}(t)$ the car slides. 
+If the maximum static friction $F_s(t, \bar{\mu})$ is less than $F_{res}(t)$ the car slides. The rolling friction is approximately half of the static friction.
 The dynamics reads as
 \begin{align*}
  &\dot{y} = v(t) \cos\beta(t) -  v_r(t)\sin \beta(t) \\
 & \dot{z} = v(t) \sin\beta(t) +  v_r(t)\cos \beta(t) \\
 & \dot{v} = \frac{1}{m}\left( \frac{M(t)}{R} - F_B(t) - \frac{1}{2}  c_w  \rho  A v(t)^2 -\left(f_{R0} + f_{R1} v(t) + f_{R4}v(t)^4 \right) m g\right)\\
-& \dot{v}_r = \begin{cases} \left( \frac{v(t)^2}{r(t)}  -  \frac{1}{2} \sum_{k=0}^2 \bar{\mu}_k w(t)^k   g\ \right) & \text{ if } F_{res}(t)- F_{s}(t) > 0, r(t) \neq 0, \dot{v} \neq 0\\
+& \dot{v}_r = \begin{cases} \left( \frac{v(t)^2}{r(t)}  -  \frac{1}{2} \sum_{k=0}^2 \bar{\mu}_k w(t)^k   g\ \right) & \text{ if } F_{res}(t)- F_{s}(t) > 0, r(t) \neq 0, \\
 0 &   \text{ else }
 \end{cases}\\
 & \dot{\beta} = \omega_{\beta}.
 \end{align*}
 Smoothing approach:
 \begin{align*}
- \dot{v}_r = \begin{cases} \frac{F_{res}(t)- F_{s}(t)}{5m}\left( \frac{v(t)^2}{r(t)}  -  \frac{1}{2} \sum_{k=0}^2 \bar{\mu}_k w(t)^k   g\ \right) & \text{ if } F_{res}(t)- F_{s}(t) > 0, r(t) \neq 0, \dot{v} \neq 0\\
+ \dot{v}_r = \begin{cases} \left(\frac{F_{res}(t)- F_{s}(t)}{5m}\right)^3\left( \frac{v(t)^2}{r(t)}  -  \frac{1}{2} \sum_{k=0}^2 \bar{\mu}_k w(t)^k   g\ \right) & \text{ if } F_{res}(t)- F_{s}(t) > 0, r(t) \neq 0,\\
 0 &   \text{ else }
 \end{cases}
 \end{align*}
-
-
+Since $F_{res} - F_s \leq 0 \Leftrightarrow F_{res}^2 - F_s^2 \leq 0 ,$ I would implement (in view of nicer derivatives)
+\begin{align*}
+ \dot{v}_r = \begin{cases} \left(\frac{F_{res}^2(t)- F_{s}^2(t)}{120m}\right)^3\left( \frac{v(t)^2}{r(t)}  -  \frac{1}{2} \sum_{k=0}^2 \bar{\mu}_k w(t)^k   g\ \right) & \text{ if } F_{res}^2(t)- F_{s}^2(t) > 0, r(t) \neq 0\\
+0 &   \text{ else }
+\end{cases}
+\end{align*}
 
 \end{document}
