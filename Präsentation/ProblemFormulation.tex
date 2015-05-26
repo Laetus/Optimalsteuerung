@@ -90,7 +90,7 @@ $\Rightarrow$ bilevel structure!
 	\frametitle{Approximation Technique}
 
 \begin{block}{Linearization}
-at a point $(\bar{x}, u, \bar{p})$ with $g(\bar{x}, u, \bar{p})=0$ and $\bar{p}=\frac{p_{lower}+p_{upper}}{2}$:	
+at a point $(\bar{x}, u, \bar{p})$ with $\bar{p}=\frac{p_{lower}+p_{upper}}{2}$ and $g(\bar{x}, u, \bar{p})=0$:	
 	\begin{align*}
 	\tilde{\Phi}_{i}(u):= &&& \max_{(x-\bar{x})\in\mathbb{R}^{n_{x}}, (p-\bar{p})\in\mathbb{R}^{n_{p}}} f_{i}(\bar{x}, u)+\frac{\partial f_{i}}{\partial x}(\bar{x}, u)(x-\bar{x}) \\
 	& \text{s.t.} && \frac{\partial g}{\partial x}(\bar{x}, u, \bar{p})(x-\bar{x})+\frac{\partial g}{\partial p}(\bar{x}, u, \bar{p})(p-\bar{p})=0 \\
