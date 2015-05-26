@@ -5,7 +5,7 @@
 
 \begin{figure}[T]
 \centering
-\includestandalone[angle = -10, width=0.8\textwidth]{cartikz}
+\includestandalone[angle = 0, width=0.75\textwidth]{cartikz}
 \end{figure}
 
 
@@ -42,8 +42,8 @@
 \end{align*}
 where 
 \begin{align*}
-& x \in C^1([0, t_f], \mathbb{R}^{n_x}) \text{ is the state variable,}\\
-& u \in C^1([0, t_f], \mathbb{R}^{n_u}) \text{ is the control variable,}\\
+& x \in C^1([0, t_f], \mathbb{R}^{n}) \text{ is the state variable,}\\
+& u \in C^1([0, t_f], \mathbb{R}^{m}) \text{ is the control variable,}\\
 & p \in \mathbb{R}^{n_p} \text{ is the uncertain parameter vector.}
 \end{align*}
 \end{block}
@@ -51,7 +51,7 @@ where
 \note{
 \begin{itemize}
 \item Motion of the car is described as a dynamical system, i.e., with a ODE and an initial value
-\item $t_f$ is the final time
+\item $t_f$ is the final time of our ride
 \item our states: path, velocity, steering angle
 \item control: brake, motor torque (gas petal), steering angle velocity
 \item parameter: weather, rolling friction coefficients, uncertain sea level due to wrong NAVI data

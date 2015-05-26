@@ -49,15 +49,17 @@ Aus den Optimierungsergebnissen kann man sehen, dass für $t_{f}=120\,s$ das Aut
 \section{Wahl der Parameter für die robuste Optimierung}
 \subsection{Höhenprofil der Straße}
 Den allgemeinen Straßenverlauf gibt uns Christian vor (er erstellt die Teststrecke in Blender), er ist also bekannt. Somit ist auch das Höhenprofil vorgegeben, allerdings modellieren wir als einen Parameter eine Abweichung/ Ungenauigkeit $\epsilon$ davon (Idee dahinter: Das Auto kennt das Höhenprofil aus dem Navi, welches aber immer eine gewisse Ungenauigkeit hat).\\
-Mathematische Herangehensweise: Das Höhenprofil wird über den Steigungswinkel $\alpha$ beschrieben, welcher in einem gewissen Intervall liegt. Die Ungenauigkeit $\epsilon$ vom vorgegebenen Höhenprofil beschreiben wir durch ein Polynom:
-$$ \epsilon(t)=\sum_{i} p_{i}\cdot(H"ohenprofil(t))^{i}$$
+Mathematische Herangehensweise: Das Höhenprofil wird über den Steigungswinkel $\alpha$ beschrieben, welchen wir ausgehend vom Höhenprofil bestimmen. Die Ungenauigkeit des Steigungswinkels $\alpha$ in Abhängigkeit des Höhenprofils
+beschreiben wir durch ein Polynom (mit geeigneter, noch zu bestimmender Ordnung):
+
+$$ \alpha(t)=\sum_{i} p_{i}\cdot(H"ohenprofil(t))^{i}$$
 mit passenden Koeffizienten $p_{i}\in [\bar{p}-p^{-}, \bar{p}+p^{+}]$ als unsichere Parameter nach Diehl.
 
 \subsection{verschiedenen Wetterlagen}
 Verschiedene Wetterlagen beschreiben wir durch verschiedene Reibungskoeffizienten. Dabei nehmen wir an, dass sich das Wetter global zu vorher fest vorgegebenen Zeiten ändert (Diese erhält das Auto aus dem Wetterbericht). D.h. das Wetter ist vor Fahrtanfang vorgegeben. Während einer gewissen Wetterlage schwankt nun der Reibungskoeffizient innerhalb eines Intervalls (z.B. bei Regen: Unterschied nasse Fahrbahn zu Wasserlache,...).\\
 Mathematisch beschreiben wir das, indem wir einen Zustand $x_{i}(t)\in [0,1]$ einführen. Dabei beschreibt $x(t)=1$ ein perfektes sonniges und $x(t)=0$ das schlechtest mögliche Wetter. Der Zusammenhang zwischen der Wetterlage $x_{i}$ und dem Reibungskoeffizienten $f_{R}$ wird durch ein Polynom gegeben:
 $$f_{R}(x_{i})=\sum_{j} p_{j}\cdot (x_{i})^{j} $$
-Dabei sind die Koeffizienten $p_{i}(x_{i})\in [\bar{p}(x_{i})-p^{-},\bar{p}(x_{i})+p^{+}]$ die unsicheren Parameter nach Diehl. Sie hängen von der Wetterlage ab (siehe oben).\\
+Dabei sind die Koeffizienten $p_{i}\in [\bar{p_{i}}-p^{-}_{i},\bar{p_{i}}+p^{+}_{i}]$ die unsicheren Parameter nach Diehl. Bei einer schlechten Wetterlage beschreibt somit der Parameter $p_{1}$ den Reibungskoeffizienten $f_{R}$, bei gutem Wetter beschreibt ihn die Summer aller Parameter.\\
 \\
 Eventuell führen wir auch eine höhenabhängige Glätte ein. Dies realisieren wir über einen höhenabhängigen Strafterm $k(h)$ vor der Reibung:
 $$ F_{R}= k(h)\cdot mgf_{R}$$
