@@ -91,7 +91,7 @@ The dynamics reads as
 & \dot{z} = v(t) \sin\beta(t) +  v_r(t)\cos \beta(t) \\
 & \dot{v} = \frac{1}{m}\left( \frac{M(t)}{R} - F_B(t) - \frac{1}{2}  c_w  \rho  A v(t)^2 -\left(f_{R0} + f_{R1} v(t) + f_{R4}v(t)^4 \right) m g\right)\\
 &  \dot{v}_r = \begin{cases} \left(\frac{F_{res}^2(t)- F_{s}^2(t)}{c_3m^2}\right)^5 \phi(v(t)) & \text{ if } F_{res}^2(t)- F_{s}^2(t)\geq 0, r(t) \neq 0\\
-\phi( v(t))  & \text{ if } c_3 \geq F_{res}^2(t)- F_{s}^2(t) \geq 0, r(t) \neq 0\\
+\phi( v(t))  & \text{ if } c_3m^2 \geq F_{res}^2(t)- F_{s}^2(t) \geq 0, r(t) \neq 0\\
 0 &   \text{ if } r(t) \neq 0,\\
 \end{cases}\\
 & \dot{\beta} = \omega_{\beta},
@@ -100,24 +100,36 @@ The dynamics reads as
 
 \begin{align*}
 G(x, u, p) = \begin{bmatrix}
-& objective \\
+& \text{objectfun} \\
  & x_4 \cos x_6 -  x_5\sin x_6 \\
 &  x_4 \sin x_6 +  x_5\cos x_6 \\
 &  \chi(x, u, p)\\
-&   \begin{cases} \left(\frac{F_{res}^2(t)- F_{s}^2(t)}{c_3m^2}\right)^5 \phi(x_4) & \text{ if } F_{res}^2(t)- F_{s}^2(t)\geq 0, r(t) \neq 0\\
-\phi( x_4)  & \text{ if } c_3 \geq F_{res}^2(t)- F_{s}^2(t) \geq 0, r(t) \neq 0\\
-0 &   \text{ if } r(t) \neq 0,\\
+&  \begin{cases} \left(\frac{\omega(x, y, p)}{c_3}\right)^5 \phi(x_4) & \text{ if } \omega(x, y, p)\geq 0,\\
+\phi( x_4)  & \text{ if } c_3 \geq \omega(x, y, p) \geq 0, \\
+0 &   \text{ else } \\
 \end{cases}\\
  & u_3
 \end{bmatrix},
 \end{align*}
 where 
 \begin{align*}
-&\chi(x, u, p)= \frac{1}{m}\left( \frac{u_1}{R} - u_2 - \frac{1}{2}  c_w  \rho  A x_3^2\right) -\left(p_{1} + p_2 x_4 + p_3 x_4^4 \right) g\\
+&\chi(x, u, p)= \frac{1}{m}\left( \frac{u_1}{R} - u_2 - F_A(x_4)\right) -\tilde{F}_R(x, p)\\
 &\phi( x_4) = \frac{x_4^2}{r}  -  \mu_r g \\
 &\psi(x_4, x_5) = \left(\frac{x_4^2}{r}\right)^2+ x_4^2\\
-& \omega(x, y, p) = \frac{F_{res}^2(t)- F_{s}^2(t)}{m^2} = \left(\frac{x_4^2}{r(t)}\right)^2+ \chi(x, u, p)^2 -\sum_{k=0}^2 \bar{\mu}_k w(t)^k g  \\
-& = \left(\frac{x_4^2}{r(t)}\right)^2+ \chi(x, u, p)^2 -\left(p_4 + p_5 w(t) + p_6 w(t)^2 \right) g  \\
+& \omega(x, y, p) = \frac{F_{res}^2(t)- F_{s}^2(t)}{m^2} = \left(\frac{x_4^2}{r(t)}\right)^2+ \chi(x, u, p)^2 -\left(\sum_{k=0}^2 \bar{\mu}_k w(t)^k g\right)^2  \\
+& = \left(\frac{x_4^2}{r(t)}\right)^2+ \chi(x, u, p)^2 -\left(p_4 + p_5 w(t) + p_6 w(t)^2 \right)^2 g^2  \\
+& F_A(x_4) = \frac{1}{2}  c_w  \rho  A x_4^2 \\
+&\tilde{F}_R(x, p) = \left(p_{1} + p_2 x_4 + p_3 x_4^4 \right) g \\
+ &\text{objectfun}(x, u, p) = c_1 F_A(x_4) x_4 + \frac{u_1}{R}x_4 + F_R(p)x_4 -c_2 x_4\\
+&x = \begin{pmatrix}
+x_1 \ \ldots \ x_6
+\end{pmatrix}^T \\
+&u = \begin{pmatrix}
+u_1 \ u_2 \ u_3 
+\end{pmatrix}^T \\
+&p = \begin{pmatrix}
+p_1 \ \ldots \ p_6
+\end{pmatrix}^T
 \end{align*}
 
 
