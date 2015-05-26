@@ -1,9 +1,9 @@
 \documentclass{beamer}
 \usepackage{pgfpages}
 
-\setbeameroption{show notes}
-\setbeameroption{show notes on second screen=right}
-\setbeamerfont{note page}{size=\tiny}
+\setbeameroption{hide notes}
+%\setbeameroption{show notes on second screen=right}
+%\setbeamerfont{note page}{size=\tiny}
 
 
 \usepackage[T1]{fontenc}
@@ -50,8 +50,14 @@
 %-----------------------------------------
 
 %\setbeamertemplate{footline}[frame number]
-    \setbeamertemplate{footline}{%
-      \raisebox{5pt}{\makebox[\paperwidth]{\hfill\makebox[8pt]{\scriptsize\insertframenumber}}}}
+
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber
+}
+
 \usecolortheme{rose}
 \useinnertheme[shadow]{rounded}
 
